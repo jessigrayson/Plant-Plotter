@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<title>User Account Information</title>
+
+<h1>Name:</h1>{{ user.fname }} {{ user.lname }}
+<p>Username: {{ user.username }}</p>
+<p>Password: {{ user.password }}</p>
+<p>Email: {{ user.email }}</p>
+<p>Zipcode: {{ user.username }}</p>
+
+<a href="/garden/{{ user.user_id }}">My Garden</a>
+        
+
+{% endblock %}

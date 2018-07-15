@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <h1>Register</h1>
+  <form action="/login" method="POST">
+
+    <div>
+      <label>First Name:
+        <input type="text" name="fname" required>
+      </label>
+    </div>
+
+    <div>
+      <label>Last Name:
+        <input type="text" name="lname" required>
+      </label>
+    </div>
+
+    <div>
+      <label>Email:
+        <input type="email" name="email" required>
+      </label>
+    </div>
+
+    <div>
+      <label>Username:
+        <input type="text" name="username" required>
+      </label>
+    </div>
+
+    <div>
+      <label>Password:
+        <input type="password" name="password" required>
+      </label>
+    </div>
+
+    <div>
+      <label>Zipcode:
+        <input type="text" name="zipcode" required>
+      </label>
+    </div>
+
+    <div>
+      <input type="submit" value="Log In">
+    </div>
+
+  </form>
+{% endblock %}

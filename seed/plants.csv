@@ -1,0 +1,4 @@
+plant_id,pname,pdescription,water_id,sun_id,pdays_to_harvest,p_spacing,p_row_spacing,plant_note
+1,broccoli,veggie description,1,1,100,18-24,24-36,supper healthy
+2,strawberrty,strawberry description,2,1,60,18-Dec,18-24,super yummy
+3,tomato,tomato blurbs...,2,1,90,24-36,24,great in everything

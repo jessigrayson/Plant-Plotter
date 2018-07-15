@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <!-- Main text on page -->
+  <div id="homepage-block">
+    <h1 id="homepage-title">Manage Your Garden</h1>
+  </div>
+  
+  <!-- Plant search dropdown -->
+  <form action="/plant" method="POST">
+
+    <div class="form-group">
+      <label>Plant
+        <select name="plants">
+          <option value="broccoli">Brocoli</option>
+          <option value="strawberry">Strawberry</option>
+          <option value="tomato">Tomato</option>
+          <option value="onion">Onion</option>
+        </select>
+      </label>
+    </div>
+    <!-- Submit button -->
+    <div>
+      <input type="submit" value="Get Info">
+    </div>
+    <!-- Login link -->
+  <div><a href="/login">login</a>
+    Login
+  </div>
+  </form>
+  
+
+
+{% endblock %}

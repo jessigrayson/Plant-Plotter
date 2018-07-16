@@ -3,7 +3,7 @@
 import datetime
 from sqlalchemy import func
 
-from model import Plant, User, UserGarden, Sun, Water, ZipFrostDate, UserPlantconnect_to_db, db
+from model import Plant, User, UserGarden, Sun, Water, ZipFrostDate, UserPlanted, connect_to_db, db
 from server import app
 
 
@@ -15,7 +15,7 @@ def load_plants(plant_filename):
     for i, row in enumerate(open(plant_filename)):
         row = row.rstrip()
 
-        plant_id, pname, pdescription, water_id, sun_id, pdays_to_harvest, pspacing, prow_spacing = row.split(",")
+        plant_id, pname, pdescription, water_id, sun_id, pdays_to_harvest, pspacing, prow_spacing, plant_note = row.split(",")
 
         plant = Plant(plant_id=plant_id,
                       pname=pname,
@@ -25,7 +25,7 @@ def load_plants(plant_filename):
                       pdays_to_harvest=pdays_to_harvest,
                       pspacing=pspacing,
                       prow_spacing=prow_spacing,
-                      p_note=p_note)
+                      plant_note=plant_note)
 
         # # We need to add to the session or it won't ever be stored
         db.session.add(plant)
@@ -51,7 +51,7 @@ def load_user(user_filename):
         user = User(user_id=user_id,
                     username=username,
                     password=password,
-                    fname=wfname,
+                    fname=fname,
                     lname=lname,
                     email=email,
                     zipcode=zipcode,
@@ -91,11 +91,11 @@ def load_water(water_filename):
 
         water_id, water_name = row.split(",")
 
-        water = Water(water_id=sun_id, 
-                    water_name=water_name)
+        water = Water(water_id=water_id,
+                      water_name=water_name)
 
         # We need to add to the session or it won't ever be stored
-        db.session.add(user)
+        db.session.add(water)
 
     db.session.commit()
 
@@ -111,10 +111,10 @@ def load_usergarden(usergarden_filename):
         garden_id, user_id, garden_name, garden_description, sun_id = row.split(",")
 
         usergarden = UserGarden(garden_id=garden_id,
-                    user_id=user_id,
-                    garden_name=garden_name, 
-                    garden_description=garden_description, 
-                    sun_id=sun_id)
+                                user_id=user_id,
+                                garden_name=garden_name,
+                                garden_description=garden_description,
+                                sun_id=sun_id)
 
         # # We need to add to the session or it won't ever be stored
         db.session.add(usergarden)
@@ -149,7 +149,7 @@ def load_userplanted(userplanted_filename):
 
 
 def load_zip_frost_date(zipfrostdate_filename):
-    """Load user plants from userplanted file into database."""
+    """Load frost dates by zip from zip_frost_date file into database."""
 
     print("Zip Frost Date")
 
@@ -164,7 +164,7 @@ def load_zip_frost_date(zipfrostdate_filename):
             fall_frost_date = None
 
         if spring_frost_date_str:
-            spring_frost_date = datetime.datetime.strptime(string_frost_date_str, "%m/%d/%Y")
+            spring_frost_date = datetime.datetime.strptime(spring_frost_date_str, "%m/%d/%Y")
         else:
             spring_frost_date = None
 
@@ -196,13 +196,13 @@ if __name__ == "__main__":
     connect_to_db(app)
     db.create_all()
 
-plant_filename = "seed/plants"
+plant_filename = "seed/plant"
 user_filename = "seed/user"
 sun_filename = "seed/sun"
 water_filename = "seed/water"
 usergarden_filename = "seed/usergarden"
 userplanted_filename = "seed/userplanted"
-zipfrostdate_filename = "seed/zipfrostdates"
+zipfrostdate_filename = "seed/zip_frost_dates"
 
 load_plants(plant_filename)
 load_user(user_filename)

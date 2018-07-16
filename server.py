@@ -5,7 +5,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import connect_to_db, db, Plant, User, Usergarden, Water, Sun, ZipFrostDate, UserPlanted
+from model import connect_to_db, db, Plant, User, UserGarden, Water, Sun, ZipFrostDate, UserPlanted
 
 app = Flask(__name__)
 
@@ -143,16 +143,16 @@ def garden_detail(user_id):
     return render_template("user_garden.html, user=user")
 
 
-@app.route("/plant/<int:plant_id>", methods=['GET'])
-def garden_detail(plant_id):
-    """Show plant and associated info."""
+# @app.route("/plant/<int:plant_id>", methods=['GET'])
+# def garden_detail(plant_id):
+#     """Show plant and associated info."""
     
-    # plant = request.form["plant"]
-    # user = session.get("user_id")
+#     # plant = request.form["plant"]
+#     # user = session.get("user_id")
 
-    # garden = db.session.query.options(garden_id)
+#     # garden = db.session.query.options(garden_id)
 
-    return render_template("plant.html")
+#     return render_template("plant.html")
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point

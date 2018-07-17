@@ -37,9 +37,9 @@ def index():
 def plant_detail():
     """Show plant and associated info."""
 
-    plant_req = request.args.get(plants)
+    plant_id = int(request.args.get("plants"))
 
-    plant = Plant.query.filter(pname=plant_req)
+    plant = Plant.query.get(plant_id)
 
 
     return render_template("plant.html", plant=plant)

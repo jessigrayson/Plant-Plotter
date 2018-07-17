@@ -19,8 +19,26 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/', methods=['GET'])
 def index():
     """Homepage."""
+    plants = Plant.query.all()
 
-    return render_template("homepage.html")
+    return render_template("homepage.html", plants=plants)
+
+
+# @app.route('/', methods=['POST'])
+# def process_plant_request():
+#     """Homepage plant info request."""
+
+
+#     return render_template("plant.html", plant_id=plant.plant_id)
+
+
+@app.route("/plant/<int:plant_id>", methods=['GET'])
+def plant_detail(plant_id):
+    """Show plant and associated info."""
+
+    # plant = db.session.query(Plant).filter_by(pname=pname).first()
+
+    return render_template("plant.html", plant_id=plant_id)
 
 
 # @app.route('/', methods=['POST'])
@@ -126,9 +144,8 @@ def logout():
 def user_detail(user_id):
     """Show info about user."""
 
-    # user = db.session.query.filter(User.user_id=user_id)
-    # user = User.query.options(db.joinedload('ratings').joinedload(
-    # 'movie')).get(user_id)
+    user = db.session.filter(user_id).first()
+
     return render_template("user.html", user=user)
 
 
@@ -143,16 +160,6 @@ def garden_detail(user_id):
     return render_template("user_garden.html, user=user")
 
 
-# @app.route("/plant/<int:plant_id>", methods=['GET'])
-# def garden_detail(plant_id):
-#     """Show plant and associated info."""
-    
-#     # plant = request.form["plant"]
-#     # user = session.get("user_id")
-
-#     # garden = db.session.query.options(garden_id)
-
-#     return render_template("plant.html")
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point

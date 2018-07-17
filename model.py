@@ -45,10 +45,10 @@ class UserGarden(db.Model):
     __tablename__ = "usergarden"
 
     garden_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     garden_name = db.Column(db.String(48), nullable=False)
     garden_desc = db.Column(db.String(48), nullable=False)
-    sun_id = db.Column(db.Integer, db.ForeignKey('sun.sun_id'), index=True)
+    sun_id = db.Column(db.Integer, db.ForeignKey('sun.sun_id'))
 
     user = db.relationship("User", backref="usergarden")
     sun = db.relationship("Sun", backref="usergarden")
@@ -74,8 +74,8 @@ class Plant(db.Model):
     plant_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     pname = db.Column(db.String(100))
     pdescription = db.Column(db.String(200))
-    water_id = db.Column(db.Integer, db.ForeignKey('water.water_id'), index=True)
-    sun_id = db.Column(db.Integer, db.ForeignKey('sun.sun_id'), index=True)
+    water_id = db.Column(db.Integer, db.ForeignKey('water.water_id'))
+    sun_id = db.Column(db.Integer, db.ForeignKey('sun.sun_id'))
     pdays_to_harvest = db.Column(db.Integer, nullable=False)
     pspacing = db.Column(db.Integer, nullable=True)
     prow_spacing = db.Column(db.Integer, nullable=True)
@@ -98,8 +98,8 @@ class UserPlanted(db.Model):
     __tablename__ = "userplanted"
 
     userplanted_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), index=True)
-    plant_id = db.Column(db.Integer, db.ForeignKey('plant.plant_id'), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    plant_id = db.Column(db.Integer, db.ForeignKey('plant.plant_id'))
     planted_date = db.Column(db.DateTime)
 
     user = db.relationship("User", backref="userplanted")
@@ -164,7 +164,7 @@ def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     # Configure to use our PostgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///ratings'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///plants'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ECHO'] = True
     db.app = app

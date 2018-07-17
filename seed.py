@@ -12,7 +12,7 @@ def load_plants(plant_filename):
 
     print("Plants")
 
-    for i, row in enumerate(open(plant_filename)):
+    for row in enumerate(open(plant_filename)):
         row = row.rstrip()
 
         plant_id, pname, pdescription, water_id, sun_id, pdays_to_harvest, pspacing, prow_spacing, plant_note = row.split(",")
@@ -38,13 +38,13 @@ def load_user(user_filename):
 
     print("User")
 
-    for i, row in enumerate(open(user_filename)):
+    for row in open(user_filename):
         row = row.rstrip()
-
+        # user_id,username,password,fname,lname,email,zipcode,reg_date
         user_id, username, password, fname, lname, email, zipcode, reg_date_str = row.split(",")
 
         if reg_date_str:
-            reg_date = datetime.datetime.strptime(reg_date_str, "%m/%d/%Y")
+            reg_date = datetime.datetime.strptime(reg_date_str, "%m-%d-%Y")
         else:
             reg_date = None
 
@@ -196,19 +196,19 @@ if __name__ == "__main__":
     connect_to_db(app)
     db.create_all()
 
-plant_filename = "seed/plant"
-user_filename = "seed/user"
-sun_filename = "seed/sun"
-water_filename = "seed/water"
-usergarden_filename = "seed/usergarden"
-userplanted_filename = "seed/userplanted"
-zipfrostdate_filename = "seed/zip_frost_dates"
+    user_filename = "seed/user.csv"
+    plant_filename = "seed/plant.csv"
+    sun_filename = "seed/sun.csv"
+    water_filename = "seed/water.csv"
+    usergarden_filename = "seed/usergarden.csv"
+    userplanted_filename = "seed/userplanted.csv"
+    zipfrostdate_filename = "seed/zip_frost_dates.csv"
 
-load_plants(plant_filename)
-load_user(user_filename)
-load_sun(sun_filename)
-load_water(water_filename)
-load_usergarden(usergarden_filename)
-load_userplanted(userplanted_filename)
-load_zip_frost_date(zipfrostdate_filename)
-set_val_user_id()
+    load_user(user_filename)
+    load_plants(plant_filename)
+    load_sun(sun_filename)
+    load_water(water_filename)
+    load_usergarden(usergarden_filename)
+    load_userplanted(userplanted_filename)
+    load_zip_frost_date(zipfrostdate_filename)
+    set_val_user_id()

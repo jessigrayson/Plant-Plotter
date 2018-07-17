@@ -12,7 +12,7 @@ def load_plants(plant_filename):
 
     print("Plants")
 
-    for row in enumerate(open(plant_filename)):
+    for row in open(plant_filename):
         row = row.rstrip()
 
         plant_id, pname, pdescription, water_id, sun_id, pdays_to_harvest, pspacing, prow_spacing, plant_note = row.split(",")
@@ -33,10 +33,10 @@ def load_plants(plant_filename):
     db.session.commit()
 
 
-def load_user(user_filename):
+def load_users(user_filename):
     """Load users from users file into database."""
 
-    print("User")
+    print("Users")
 
     for row in open(user_filename):
         row = row.rstrip()
@@ -67,7 +67,7 @@ def load_sun(sun_filename):
 
     print("Sun")
 
-    for i, row in enumerate(open(sun_filename)):
+    for row in open(sun_filename):
         row = row.rstrip()
 
         sun_id, sun_name = row.split(",")
@@ -86,7 +86,7 @@ def load_water(water_filename):
 
     print("Water")
 
-    for i, row in enumerate(open(water_filename)):
+    for row in open(water_filename):
         row = row.rstrip()
 
         water_id, water_name = row.split(",")
@@ -105,15 +105,15 @@ def load_usergarden(usergarden_filename):
 
     print("User Garden")
 
-    for i, row in enumerate(open(usergarden_filename)):
+    for row in open(usergarden_filename):
         row = row.rstrip()
 
-        garden_id, user_id, garden_name, garden_description, sun_id = row.split(",")
+        garden_id, user_id, garden_name, garden_desc, sun_id = row.split(",")
 
         usergarden = UserGarden(garden_id=garden_id,
                                 user_id=user_id,
                                 garden_name=garden_name,
-                                garden_description=garden_description,
+                                garden_desc=garden_desc,
                                 sun_id=sun_id)
 
         # # We need to add to the session or it won't ever be stored
@@ -127,7 +127,7 @@ def load_userplanted(userplanted_filename):
 
     print("User Plants")
 
-    for i, row in enumerate(open(userplanted_filename)):
+    for row in open(userplanted_filename):
         row = row.rstrip()
 
         userplanted_id, user_id, plant_id, planted_date_str = row.split(",")
@@ -153,25 +153,25 @@ def load_zip_frost_date(zipfrostdate_filename):
 
     print("Zip Frost Date")
 
-    for i, row in enumerate(open(zipfrostdate_filename)):
+    for row in open(zipfrostdate_filename):
         row = row.rstrip()
 
-        zip_frost_id, zip_frost_code, fall_frost_date_str, spring_frost_date_str = row.split(",")
+        zipfrost_id, zipfrost_code, fallfrostdate_str, springfrostdate_str = row.split(",")
 
-        if fall_frost_date_str:
-            fall_frost_date = datetime.datetime.strptime(fall_frost_date_str, "%m/%d/%Y")
+        if fallfrostdate_str:
+            fallfrost_date = datetime.datetime.strptime(fallfrostdate_str, "%m/%d/%Y")
         else:
-            fall_frost_date = None
+            fallfrost_date = None
 
-        if spring_frost_date_str:
-            spring_frost_date = datetime.datetime.strptime(spring_frost_date_str, "%m/%d/%Y")
+        if springfrostdate_str:
+            springfrost_date = datetime.datetime.strptime(springfrostdate_str, "%m/%d/%Y")
         else:
-            spring_frost_date = None
+            springfrost_date = None
 
-        zip_frost_date = ZipFrostDate(zip_frost_id=zip_frost_id,
-                                      zip_frost_code=zip_frost_code,
-                                      fall_frost_date=fall_frost_date,
-                                      spring_frost_date=spring_frost_date)
+        zipfrost_date = ZipFrostDate(zipfrost_id=zipfrost_id,
+                                     zipfrost_code=zipfrost_code,
+                                     fallfrost_date=fallfrost_date,
+                                     springfrost_date=springfrost_date)
 
         # We need to add to the session or it won't ever be stored
         db.session.add(zipfrostdate)
@@ -202,13 +202,13 @@ if __name__ == "__main__":
     water_filename = "seed/water.csv"
     usergarden_filename = "seed/usergarden.csv"
     userplanted_filename = "seed/userplanted.csv"
-    zipfrostdate_filename = "seed/zip_frost_dates.csv"
+    zipfrostdate_filename = "seed/zip_frost_date.csv"
 
-    load_user(user_filename)
-    load_plants(plant_filename)
+    # load_zip_frost_date(zipfrostdate_filename)
     load_sun(sun_filename)
     load_water(water_filename)
+    load_plants(plant_filename)
+    load_user(user_filename)
     load_usergarden(usergarden_filename)
     load_userplanted(userplanted_filename)
-    load_zip_frost_date(zipfrostdate_filename)
     set_val_user_id()

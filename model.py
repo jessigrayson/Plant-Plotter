@@ -17,7 +17,7 @@ db = SQLAlchemy()
 class User(db.Model):
     """User of garden website."""
 
-    __tablename__ = "user"
+    __tablename__ = "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     username = db.Column(db.String(16), nullable=False, unique=True)
@@ -45,7 +45,7 @@ class UserGarden(db.Model):
     __tablename__ = "usergarden"
 
     garden_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     garden_name = db.Column(db.String(48), nullable=False)
     garden_desc = db.Column(db.String(48), nullable=False)
     sun_id = db.Column(db.Integer, db.ForeignKey('sun.sun_id'))
@@ -77,12 +77,12 @@ class Plant(db.Model):
     water_id = db.Column(db.Integer, db.ForeignKey('water.water_id'))
     sun_id = db.Column(db.Integer, db.ForeignKey('sun.sun_id'))
     pdays_to_harvest = db.Column(db.Integer, nullable=False)
-    pspacing = db.Column(db.Integer, nullable=True)
-    prow_spacing = db.Column(db.Integer, nullable=True)
+    pspacing = db.Column(db.String, nullable=True)
+    prow_spacing = db.Column(db.String, nullable=True)
     plant_note = db.Column(db.String(250), nullable=True)
 
     sun = db.relationship("Sun", backref="plant")
-    water_id = db.relationship("Water", backref="plant")
+    water = db.relationship("Water", backref="plant")
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -98,7 +98,7 @@ class UserPlanted(db.Model):
     __tablename__ = "userplanted"
 
     userplanted_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     plant_id = db.Column(db.Integer, db.ForeignKey('plant.plant_id'))
     planted_date = db.Column(db.DateTime)
 

@@ -9,15 +9,15 @@
 
 
   <!-- Plant search dropdown -->
-  <form action="/plant/{{ plant.pname }}" method="POST">
+  <form action="/plant">
 
     <div class="form-group">
       <label>Plant
         <select name="plants">
 <!-- default drop down text needs to be added -->
 
-          {% for plant in plants %}
-          <option value="{{ plant.plant_id }}">{{ plant.pname }}</option>
+          {% for item in plants %}
+          <option value="{{ item.plant_id }}">{{ item.pname }}</option>
 <!--           <option value="strawberry">Strawberry</option>
           <option value="tomato">Tomato</option>
           <option value="onion">Onion</option> -->

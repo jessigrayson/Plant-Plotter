@@ -20,6 +20,7 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """Homepage."""
     plants = Plant.query.all()
+    # plants = db.session.query(Plant).order_by('pname').all()
 
     return render_template("homepage.html", plants=plants)
 
@@ -32,13 +33,16 @@ def index():
 #     return render_template("plant.html", plant_id=plant.plant_id)
 
 
-@app.route("/plant/<int:plant_id>", methods=['GET'])
-def plant_detail(plant_id):
+@app.route("/plant", methods=['GET'])
+def plant_detail():
     """Show plant and associated info."""
 
-    # plant = db.session.query(Plant).filter_by(pname=pname).first()
+    plant_req = request.args.get(plants)
 
-    return render_template("plant.html", plant_id=plant_id)
+    plant = Plant.query.filter(pname=plant_req)
+
+
+    return render_template("plant.html", plant=plant)
 
 
 # @app.route('/', methods=['POST'])

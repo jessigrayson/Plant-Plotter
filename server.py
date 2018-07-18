@@ -4,6 +4,7 @@ from jinja2 import StrictUndefined
 
 from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
+# from flask_login import login_required, current_user
 
 from model import connect_to_db, db, Plant, User, UserGarden, Water, Sun, ZipFrostDate, UserPlanted
 
@@ -45,21 +46,10 @@ def plant_detail():
     return render_template("plant.html", plant=plant)
 
 
-# @app.route('/', methods=['POST'])
-# def index():
-#     """Homepage."""
+def get_harvest_date(gardenplant_id):
+    """Calculate harvest date for a garden plant"""
 
-#     testplant = Strawberry
-#     # see if plant is in db and get id
-#     # if in db, then render template to /plant
-#     # if not in db, then alert or something saying not in our db
-#     # if plant:
-#     #     #get the plant object from db
-#     # else:
-#     #     plant = None
-#     # return render_template("plant.html", testplant=testplant)
-#     return render_template("plant.html", plant_id=testplant)
-
+    pass
 
 @app.route('/register', methods=['GET'])
 def register_form():
@@ -109,9 +99,11 @@ def login_process():
 
     # Get form variables
     username = request.form["username"]
+    print(username)
     password = request.form["password"]
+    print(password)
 
-    user = User.query.filter_by(username=username).first()
+    user = User.query.filter(User.username == username).first()
 
     if not user:
         flash("No such user")
@@ -123,8 +115,7 @@ def login_process():
 
     session["user_id"] = user.user_id
 
-    flash("Logged in")
-    return redirect("/users/{user.user_id}")
+    return redirect("/mygarden")
 
 
 @app.route('/logout')
@@ -153,16 +144,36 @@ def user_detail(user_id):
     return render_template("user.html", user=user)
 
 
-@app.route("/garden/<int:user_id>")
-def garden_detail(user_id):
+@app.route("/mygarden")
+# @login_required
+def garden_detail():
     """Show user garden(s) & associated info."""
 
-    user = session.get("user_id")
+    user = User.query.get(session["user_id"])
 
-    garden = db.session.query.options(garden_id)
+    usergardens = user.usergarden
 
-    return render_template("user_garden.html, user=user")
+    gardenplants = user.userplanted #get userplanted sqlalchemy object - can get table attributes 
+    # print("Test: print gardenplants")
+    # print(gardenplants)
+    # print("Test type, len, each item")
+    # print(type(gardenplants))
+    # print(len(gardenplants))
+    # for plant in gardenplants:
+    #     print(plant.planted_date)
 
+
+    # usergardens = db.session
+    #                 .query(UserGarden)
+    #                 .join(User)
+    #                 .group_by(UserGarden.garden_id)
+    #                 .filter(User.user_id == user_id)
+    #                 .all()
+
+    return render_template("garden.html",
+                           user=user,
+                           usergardens=usergardens,
+                           gardenplants=gardenplants)
 
 
 if __name__ == "__main__":

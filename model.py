@@ -31,7 +31,7 @@ class User(db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<User user_id={self.user_id} email={self.email}>"
+        return "<User user_id={} email={}>".format(self.user_id, user.email)
 
 
 ########## USER-GARDEN CLASS ############
@@ -90,7 +90,7 @@ class Plant(db.Model):
         return """<Plant_id={self.plant_id} plant name={self.pname}.>"""
 
 
-class UserPlanted(db.Model):
+class UserPlanted(db.Model): # THIS SHOULD BE GARDENPLANTS (LIKE BOOKGENRES)
     """Plant water categories"""
 
 # SHOULD I MAKE GARDEN LOCATION A BOOLEAN?
@@ -108,7 +108,7 @@ class UserPlanted(db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return """<Userplanted_id={self.userplanted_id}.>"""
+        return "<Userplanted_id={}>".format(self.userplanted_id)
 
 
 class Sun(db.Model):

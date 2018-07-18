@@ -208,7 +208,7 @@ if __name__ == "__main__":
     load_sun(sun_filename)
     load_water(water_filename)
     load_plants(plant_filename)
-    load_user(user_filename)
+    load_users(user_filename)
     load_usergarden(usergarden_filename)
     load_userplanted(userplanted_filename)
     set_val_user_id()

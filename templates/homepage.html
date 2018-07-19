@@ -4,7 +4,7 @@
 
   <!-- Main text on page -->
   <div id="homepage-block">
-    <h1 id="homepage-title">Manage Your Garden</h1>
+    <h2 id="homepage-title">Manage Your Garden</h2>
   </div>
 
 
@@ -18,9 +18,7 @@
 
           {% for item in plants %}
           <option value="{{ item.plant_id }}">{{ item.pname }}</option>
-<!--           <option value="strawberry">Strawberry</option>
-          <option value="tomato">Tomato</option>
-          <option value="onion">Onion</option> -->
+
           {% endfor %}
 
         </select>
@@ -31,6 +29,8 @@
       <input type="submit" value="Get Info">
     </div>
   </form>
+  <br>
+  <br>
 
 
     <!-- Login link -->

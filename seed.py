@@ -27,7 +27,6 @@ def load_plants(plant_filename):
                       prow_spacing=prow_spacing,
                       plant_note=plant_note)
 
-        # # We need to add to the session or it won't ever be stored
         db.session.add(plant)
 
     db.session.commit()
@@ -40,7 +39,7 @@ def load_users(user_filename):
 
     for row in open(user_filename):
         row = row.rstrip()
-        # user_id,username,password,fname,lname,email,zipcode,reg_date
+
         user_id, username, password, fname, lname, email, zipcode, reg_date_str = row.split(",")
 
         if reg_date_str:
@@ -75,7 +74,6 @@ def load_sun(sun_filename):
         sun = Sun(sun_id=sun_id,
                   sun_name=sun_name)
 
-        # We need to add to the session or it won't ever be stored
         db.session.add(sun)
 
     db.session.commit()
@@ -94,7 +92,6 @@ def load_water(water_filename):
         water = Water(water_id=water_id,
                       water_name=water_name)
 
-        # We need to add to the session or it won't ever be stored
         db.session.add(water)
 
     db.session.commit()
@@ -116,7 +113,6 @@ def load_usergarden(usergarden_filename):
                                 garden_desc=garden_desc,
                                 sun_id=sun_id)
 
-        # # We need to add to the session or it won't ever be stored
         db.session.add(usergarden)
 
     db.session.commit()
@@ -142,7 +138,6 @@ def load_userplanted(userplanted_filename):
                                   plant_id=plant_id,
                                   planted_date=planted_date)
 
-        # We need to add to the session or it won't ever be stored
         db.session.add(userplanted)
 
     db.session.commit()
@@ -173,7 +168,6 @@ def load_zip_frost_date(zipfrostdate_filename):
                                      fallfrost_date=fallfrost_date,
                                      springfrost_date=springfrost_date)
 
-        # We need to add to the session or it won't ever be stored
         db.session.add(zipfrostdate)
 
     db.session.commit()

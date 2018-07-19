@@ -4,34 +4,32 @@ from jinja2 import StrictUndefined
 
 from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
-# from flask_login import login_required, current_user
+# from flask_login import login_required, current_user (Phase 2?)
 
 from model import connect_to_db, db, Plant, User, UserGarden, Water, Sun, ZipFrostDate, UserPlanted
 
 app = Flask(__name__)
 
-# Required to use Flask sessions and the debug toolbar
 app.secret_key = "ABC"
 
-# It raises an error if you use an undefined variable in Jinja2
 app.jinja_env.undefined = StrictUndefined
+
+
+def calculate_harvest_date(plant_id, planted_date):
+    # get the harvest days for the plant
+    # add the days to the planted_date
+    # give a date that is now the harvest date
+    pass
 
 
 @app.route('/', methods=['GET'])
 def index():
     """Homepage."""
+
     plants = Plant.query.all()
     # plants = db.session.query(Plant).order_by('pname').all()
 
     return render_template("homepage.html", plants=plants)
-
-
-# @app.route('/', methods=['POST'])
-# def process_plant_request():
-#     """Homepage plant info request."""
-
-
-#     return render_template("plant.html", plant_id=plant.plant_id)
 
 
 @app.route("/plant", methods=['GET'])
@@ -62,14 +60,13 @@ def register_form():
 def register_process():
     """Process registration."""
 
-    # Get form variables
     fname = request.form["fname"]
     lname = request.form["lname"]
     email = request.form["email"]
     username = request.form["username"]
     password = request.form["password"]
 
-    reg_date = datetime.date
+    reg_date = datetime.datetime.now()
 
     new_user = User(fname=fname,
                     lname=lname,
@@ -97,7 +94,6 @@ def login_form():
 def login_process():
     """Process login."""
 
-    # Get form variables
     username = request.form["username"]
     print(username)
     password = request.form["password"]
@@ -121,18 +117,10 @@ def login_process():
 @app.route('/logout')
 def logout():
     """Log out."""
-
+    # Needs action for when nav bar pulls this route
     del session["user_id"]
     flash("Logged Out.")
     return redirect("/")
-
-
-# @app.route("/users")
-# def user_list():
-#     """Show list of users."""
-
-#     users = User.query.all()
-#     return render_template("user_list.html", users=users)
 
 
 @app.route("/users/<int:user_id>")
@@ -153,39 +141,53 @@ def garden_detail():
 
     usergardens = user.usergarden
 
-    gardenplants = user.userplanted #get userplanted sqlalchemy object - can get table attributes 
-    # print("Test: print gardenplants")
-    # print(gardenplants)
-    # print("Test type, len, each item")
-    # print(type(gardenplants))
-    # print(len(gardenplants))
-    # for plant in gardenplants:
-    #     print(plant.planted_date)
-
-
-    # usergardens = db.session
-    #                 .query(UserGarden)
-    #                 .join(User)
-    #                 .group_by(UserGarden.garden_id)
-    #                 .filter(User.user_id == user_id)
-    #                 .all()
+    gardenplants = user.gardenplants
+    # gardenplants = garden.gardenplants (once tables updated)
 
     return render_template("garden.html",
                            user=user,
                            usergardens=usergardens,
                            gardenplants=gardenplants)
 
+@app.route("/addgarden", methods='GET', 'POST')
+def add_garden():
+    # page will show form to add a garden with all the parameters
+    # upon submitting form, a new garden object will be instantiated
+    # then that info will pass to the add plants page
+    # would like to (eventually) add plants which will be in AJAX/JS
+    # so one can stay on the page and continually add plants.
+
+    return render_template("addgarden.html", #pass through info)
+
+
+@app.route("/addplant", methods='GET', 'POST')
+def add_plant():
+    """Select a plant to add to one of your gardens"""
+    # page will show form with drop down plant list like from homepage
+    # form will have an optional planted date input
+    # form will have a chance to override harvest_date?
+
+    # post route needs calculate_harvest_date function
+    # form inputs will add that info to the database as a new gardenplants object
+    # once submitted, event listener prompt to add another plant (Y/N)
+    # would be nice to have a link to not just add plant to garden, but
+    # add plant to a "favorites" list
+
+    return render_template("addplants.html", #pass through info)
+
+
+@app.route("/editgarden", methods='GET', 'POST')
+def edit_garden():
+    """add, remove, or change gardens and/or plant information in db"""
+
+    return render_template("editgarden.html")
 
 if __name__ == "__main__":
-    # We have to set debug=True here, since it has to be True at the point
-    # that we invoke the DebugToolbarExtension
 
-    # Do not debug for demo
     app.debug = True
 
     connect_to_db(app)
 
-    # Use the DebugToolbar
     DebugToolbarExtension(app)
 
     app.run(host="0.0.0.0")

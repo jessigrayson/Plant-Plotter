@@ -2,9 +2,14 @@
 <html>
 <head>
     <title>Plants</title>
+<div class="topnav">
+  <a class="active" href="/homepage">Home</a>
+  <!-- <a href="/myplants">My Plants</a> -->
+  <a href="/mygarden">My Garden</a>
+  <a href="/logout">Log Out</a>
+</div>
 </head>
 <body>
-
 
 {% for flash in get_flashed_messages() %}
   {{ flash }}
@@ -13,3 +18,4 @@
 {% block content %}
   Put your body here.
 {% endblock %}
+</body>

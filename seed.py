@@ -3,7 +3,7 @@
 import datetime
 from sqlalchemy import func
 
-from model import Plant, User, UserGarden, Sun, Water, ZipFrostDate, UserPlanted, connect_to_db, db
+from model import Plant, User, UserGarden, Sun, Water, ZipFrostDate, GardenPlants, connect_to_db, db
 from server import app
 
 
@@ -118,27 +118,27 @@ def load_usergarden(usergarden_filename):
     db.session.commit()
 
 
-def load_userplanted(userplanted_filename):
-    """Load user plants from userplanted file into database."""
+def load_gardenplants(gardenplants_filename):
+    """Load user plants from gardenplants file into database."""
 
-    print("User Plants")
+    print("Garden Plants")
 
-    for row in open(userplanted_filename):
+    for row in open(gardenplants_filename):
         row = row.rstrip()
 
-        userplanted_id, user_id, plant_id, planted_date_str = row.split(",")
+        gardenplants_id, garden_id, plant_id, planted_date_str = row.split(",")
 
         if planted_date_str:
             planted_date = datetime.datetime.strptime(planted_date_str, "%m/%d/%Y")
         else:
             planted_date = None
 
-        userplanted = UserPlanted(userplanted_id=userplanted_id,
-                                  user_id=user_id,
-                                  plant_id=plant_id,
-                                  planted_date=planted_date)
+        gardenplants = GardenPlants(gardenplants_id=gardenplants_id,
+                                    garden_id=garden_id,
+                                    plant_id=plant_id,
+                                    planted_date=planted_date)
 
-        db.session.add(userplanted)
+        db.session.add(gardenplants)
 
     db.session.commit()
 
@@ -173,6 +173,32 @@ def load_zip_frost_date(zipfrostdate_filename):
     db.session.commit()
 
 
+def set_val_plant_id():
+    """Set value for the next plant_id after seeding database"""
+
+    # Get the Max plant_id in the database
+    result = db.session.query(func.max(Plant.plant_id)).one()
+    max_id = int(result[0])
+
+    # Set the value for the next plant_id to be max_id + 1
+    query = "SELECT setval('plant_plant_id_seq', :new_id)"
+    db.session.execute(query, {'new_id': max_id + 1})
+    db.session.commit()
+
+
+def set_val_garden_id():
+    """Set value for the next garden_id after seeding database"""
+
+    # Get the Max garden_id in the database
+    result = db.session.query(func.max(UserGarden.garden_id)).one()
+    max_id = int(result[0])
+
+    # Set the value for the next garden_id to be max_id + 1
+    query = "SELECT setval('usergarden_garden_id_seq', :new_id)"
+    db.session.execute(query, {'new_id': max_id + 1})
+    db.session.commit()
+
+
 def set_val_user_id():
     """Set value for the next user_id after seeding database"""
 
@@ -186,6 +212,58 @@ def set_val_user_id():
     db.session.commit()
 
 
+def set_val_gardenplants_id():
+    """Set value for the next gardenplants_id after seeding database"""
+
+    # Get the Max gardenplants_id in the database
+    result = db.session.query(func.max(GardenPlants.gardenplants_id)).one()
+    max_id = int(result[0])
+
+    # Set the value for the next gardenplants_id to be max_id + 1
+    query = "SELECT setval('gardenplants_gardenplants_id_seq', :new_id)"
+    db.session.execute(query, {'new_id': max_id + 1})
+    db.session.commit()
+
+
+def set_val_sun_id():
+    """Set value for the next sun_id after seeding database"""
+
+    # Get the Max sun_id in the database
+    result = db.session.query(func.max(Sun.sun_id)).one()
+    max_id = int(result[0])
+
+    # Set the value for the next sun_id to be max_id + 1
+    query = "SELECT setval('sun_sun_id_seq', :new_id)"
+    db.session.execute(query, {'new_id': max_id + 1})
+    db.session.commit()
+
+
+def set_val_water_id():
+    """Set value for the next water_id after seeding database"""
+
+    # Get the Max water_id in the database
+    result = db.session.query(func.max(Water.water_id)).one()
+    max_id = int(result[0])
+
+    # Set the value for the next water_id to be max_id + 1
+    query = "SELECT setval('water_water_id_seq', :new_id)"
+    db.session.execute(query, {'new_id': max_id + 1})
+    db.session.commit()
+
+
+def set_val_zipfrost_id():
+    """Set value for the next zipfrost_id after seeding database"""
+
+    # Get the Max zipfrosst_id in the database
+    result = db.session.query(func.max(ZipFrostDate.zipfrost_id)).one()
+    max_id = int(result[0])
+
+    # Set the value for the next zipfrost_id to be max_id + 1
+    query = "SELECT setval('zip_frost_date.zipfrost_id_seq', :new_id)"
+    db.session.execute(query, {'new_id': max_id + 1})
+    db.session.commit()
+
+
 if __name__ == "__main__":
     connect_to_db(app)
     db.create_all()
@@ -195,7 +273,7 @@ if __name__ == "__main__":
     sun_filename = "seed/sun.csv"
     water_filename = "seed/water.csv"
     usergarden_filename = "seed/usergarden.csv"
-    userplanted_filename = "seed/userplanted.csv"
+    gardenplants_filename = "seed/gardenplants.csv"
     zipfrostdate_filename = "seed/zip_frost_date.csv"
 
     # load_zip_frost_date(zipfrostdate_filename)
@@ -204,5 +282,11 @@ if __name__ == "__main__":
     load_plants(plant_filename)
     load_users(user_filename)
     load_usergarden(usergarden_filename)
-    load_userplanted(userplanted_filename)
+    load_gardenplants(gardenplants_filename)
+    set_val_sun_id()
+    set_val_water_id()
+    set_val_plant_id()
     set_val_user_id()
+    set_val_garden_id()
+    set_val_gardenplants_id()
+    # set_val_zipfrost_id()

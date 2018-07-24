@@ -15,13 +15,6 @@ app.secret_key = "ABC"
 app.jinja_env.undefined = StrictUndefined
 
 
-def calculate_harvest_date(plant_id, planted_date):
-    # get the harvest days for the plant
-    # add the days to the planted_date
-    # give a date that is now the harvest date
-    pass
-
-
 @app.route('/', methods=['GET'])
 def index():
     """Homepage."""
@@ -43,11 +36,6 @@ def plant_detail():
 
     return render_template("plant.html", plant=plant)
 
-
-def get_harvest_date(gardenplant_id):
-    """Calculate harvest date for a garden plant"""
-
-    pass
 
 @app.route('/register', methods=['GET'])
 def register_form():
@@ -91,7 +79,7 @@ def login_form():
 
 
 @app.route('/login', methods=['POST'])
-def login_process():
+def process_login():
     """Process login."""
 
     username = request.form["username"]
@@ -100,6 +88,7 @@ def login_process():
     print(password)
 
     user = User.query.filter(User.username == username).first()
+    # CHANGE TO .ONE() AND MAKE AN ERROR EXCEPTION
 
     if not user:
         flash("No such user")
@@ -127,7 +116,7 @@ def logout():
 def user_detail(user_id):
     """Show info about user."""
 
-    user = db.session.filter(user_id).first()
+    user = db.session.filter(user_id).get()
 
     return render_template("user.html", user=user)
 
@@ -141,13 +130,14 @@ def garden_detail():
 
     usergardens = user.usergarden
 
-    gardenplants = user.gardenplants
-    # gardenplants = garden.gardenplants (once tables updated)
+    # gardenplants = user.gardenplants
+    gardenplants = garden.gardenplants
 
     return render_template("garden.html",
                            user=user,
                            usergardens=usergardens,
                            gardenplants=gardenplants)
+
 
 @app.route("/addgarden", methods='GET', 'POST')
 def add_garden():
@@ -156,13 +146,49 @@ def add_garden():
     # then that info will pass to the add plants page
     # would like to (eventually) add plants which will be in AJAX/JS
     # so one can stay on the page and continually add plants.
+    #     plant_id = int(request.args.get("plants"))
 
-    return render_template("addgarden.html", #pass through info)
+    # plant = Plant.query.get(plant_id)
+
+    return render_template("addgarden.html") #pass through infoplant_id)
 
 
-@app.route("/addplant", methods='GET', 'POST')
+@app.route("/addplant", methods=['GET', 'POST'])
 def add_plant():
     """Select a plant to add to one of your gardens"""
+    if request.method == 'POST':
+        if not request.form["plants"] or not request.form["planted_date"] or not request.form["garden"]:
+
+            flash("Please enter all the fields", "error")
+
+        else:
+            garden_id = int(request.args.get("garden"))
+            garden = Garden.query.get(garden_id)
+
+            plant_id = int(request.args.get("plants"))
+            plant = Plant.query.get(plant_id)
+
+            planted_date = request.form("planted_date")
+
+            harvest_date = calculate_harvest_date(plant_id, planted_date)
+
+            new_gardenplant_obj = GardenPlants(garden_id=garden_id,
+                                               plant_id=plant.plant_id,
+                                               planted_date=planted_date,
+                                               harvest_date=harvest_date)
+
+            db.session.add(new_gardenplant_obj)
+            db.session.commit()
+
+            flash("{} successfully added to {}".format(plant.pname, garden.garden_name))
+            return redirect("/mygarden", plant=plant)
+
+             # <select name="plants">
+    return render_template("add_plant.html")
+
+
+
+    # --POST:
     # page will show form with drop down plant list like from homepage
     # form will have an optional planted date input
     # form will have a chance to override harvest_date?
@@ -172,8 +198,11 @@ def add_plant():
     # once submitted, event listener prompt to add another plant (Y/N)
     # would be nice to have a link to not just add plant to garden, but
     # add plant to a "favorites" list
-
-    return render_template("addplants.html", #pass through info)
+        # create object, will need to supply inputs, in order to supply
+        # harvest_date, will need to call ClassName.calculate_harvest_date 
+        # and store in a variable, then can pass that variable to database
+        # when entry is created
+    # return render_template("addplants.html", #pass through info)
 
 
 @app.route("/editgarden", methods='GET', 'POST')

@@ -1,6 +1,7 @@
 """Models and database functions for Garden Web App project."""
 from flask_sqlalchemy import SQLAlchemy
 # from collections import defaultdict
+from datetime import datetime
 
 # This is the connection to the PostgreSQL database; we're getting this through
 # the Flask-SQLAlchemy helper library. On this, we can find the `session`
@@ -31,7 +32,7 @@ class User(db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<User user_id={} email={}>".format(self.user_id, user.email)
+        return "<User user_id={} email={}>".format(self.user_id, self.email)
 
 
 ########## USER-GARDEN CLASS ############
@@ -96,32 +97,39 @@ class GardenPlants(db.Model):
     __tablename__ = "gardenplants"
 
     gardenplants_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    # not sure if I should use user_id and/or garden_id, 3 id's seem overkill
+    # user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    # # not sure if I should use user_id and/or garden_id, 3 id's seem overkill
     garden_id = db.Column(db.Integer, db.ForeignKey('usergarden.garden_id'))
     plant_id = db.Column(db.Integer, db.ForeignKey('plant.plant_id'))
     planted_date = db.Column(db.DateTime, nullable=False)
     harvest_date = db.Column(db.DateTime, nullable=False)
 
-    user = db.relationship("User", backref="gardenplants")
+    # user = db.relationship("User", backref="gardenplants")
     gardens = db.relationship("UserGarden", backref="gardenplants")
     plant = db.relationship("Plant", backref="gardenplants")
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Userplanted_id={}>".format(self.userplanted_id)
+        return "<Gardenplants_id={}>".format(self.gardenplants_id)
 
     @staticmethod
     def calculate_harvest_date(plant_id, planted_date):
         """Return harvest date for gardenplant"""
 
-        harvest_days = db.session.query(pdays_to_harvest).get(plant_id)
+        harvest_days = db.session.query(Plant.pdays_to_harvest).get(plant_id)
         harvest_date = planted_date + datetime.timedelta(days=harvest_days)
         return harvest_date
         # get the harvest days for the plant
         # add the days to the planted_date
         # give a date that is now the harvest date
+
+        # import datetime from datetime import datetime
+        # create object, will need to supply inputs, in order to supply
+        # harvest_date, will need to call ClassName.calculate_harvest_date 
+        # and store in a variable, then can pass that variable to database
+        # when entry is created
+
 
 
 class Sun(db.Model):

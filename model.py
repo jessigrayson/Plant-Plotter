@@ -126,7 +126,7 @@ class GardenPlants(db.Model):
 
         # import datetime from datetime import datetime
         # create object, will need to supply inputs, in order to supply
-        # harvest_date, will need to call ClassName.calculate_harvest_date 
+        # harvest_date, will need to call ClassName.calculate_harvest_date
         # and store in a variable, then can pass that variable to database
         # when entry is created
 
@@ -165,12 +165,12 @@ class ZipFrostDate(db.Model):
 
 # SHOULD I MAKE GARDEN LOCATION A BOOLEAN?
 
-    __tablename__ = "zip_frost_date"
+    __tablename__ = "zipfrost_date"
 
     zipfrost_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     zipfrost_code = db.Column(db.Integer, nullable=False)
-    fall_frost_date = db.Column(db.DateTime, nullable=False)
-    sprint_frost_date = db.Column(db.DateTime, nullable=False)
+    fallfrost_date = db.Column(db.DateTime, nullable=False)
+    springfrost_date = db.Column(db.DateTime, nullable=False)
 
     def __repr__(self):
         """Provide helpful representation when printed."""

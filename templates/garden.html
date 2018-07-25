@@ -7,15 +7,6 @@
 Phase 2 JS/AJAX for a different message if user's garden is empty
 <p>{{ user.fname }}, check it out!</p>
 
-<h3><font color="red">
-    <p>Step 1: The UserPlanted class/table needs to be redone 
-    to a many to many "middle table" with " GardenPlants"
-    and column headers of "gardenplant_id," "garden_id,"(FK)
-    "plant_id"(FK), and "planted_date"(DT).</p>
-    <p>Step 2: Fill in csv files with data to be loaded</p>
-    <p>Step 3: Update table/class names for anything else prior to seeding  </p> 
-</font></h3>
-
 {% for garden in usergardens %}
 <h2>{{ garden.garden_name }}: {{ garden.garden_desc }}</h2>
 
@@ -29,15 +20,15 @@ Phase 2 JS/AJAX for a different message if user's garden is empty
     <th>Watering</th>
     <th>Sun Exposure</th>
   </tr>
-  {% for plant in gardenplants %}
+  {% for gardenplant in garden.gardenplants %}
     <tr>
-        <td>plant.pname</td>
-        <td>plant.pdescription</td>
-        <td>{{ plant.planted_date }}</td>
-        <td>plant.days_to_harvest</td>
-        <td>plant.plant_note</td>
-        <td>plant.water</td>
-        <td>plant.sun</td>
+        <td>{{ gardenplant.plant.pname }} </td>
+        <td>{{ gardenplant.plant.pdescription }}</td>
+        <td>{{ gardenplant.planted_date }}</td>
+        <td>{{ gardenplant.harvest_date }}</td>
+        <td>{{ gardenplant.plant.plant_note }}</td>
+        <td>{{ gardenplant.plant.water.water_name }}</td>
+        <td>{{ gardenplant.plant.sun.sun_name }}</td>
     </tr>
     {% endfor %}
 </table>

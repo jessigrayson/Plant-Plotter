@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
 # from flask_login import login_required, current_user (Phase 2?)
 
-from model import connect_to_db, db, Plant, User, UserGarden, Water, Sun, ZipFrostDate, UserPlanted
+from model import connect_to_db, db, Plant, User, UserGarden, Water, Sun, ZipFrostDate, GardenPlants
 
 app = Flask(__name__)
 
@@ -130,16 +130,41 @@ def garden_detail():
 
     usergardens = user.usergarden
 
-    # gardenplants = user.gardenplants
-    gardenplants = garden.gardenplants
+    # gardenplants_lst = []
+
+    # for garden in usergardens:
+    #     print("--------------for garden in usergardens:")
+    #     print(garden)
+    #     print(type(garden))
+    #     for gardenplant in garden.gardenplants:
+    #         print("--------------for gardenplant in garden.gardenplants:")
+    #         print(gardenplant)
+    #         print(type(gardenplant))
+    #         print("--------------print gardenplant.plant:")
+    #         print(gardenplant.plant)
+    #         print(type(gardenplant.plant))
+            # for gardenplants.plant in gardenplants:
+    #     print("garden.garden_id")
+    #     print(garden.garden_id) #None or other garden number, just the number
+    #     gardenplants = Plant.query.filter_by(GardenPlants.query.get(garden.garden_id)) #gardenplants object
+    #     print("gardenplants")
+    #     print(gardenplants)
+    #     gardenplants_lst.append(gardenplants)
+    # print("gardenplants_lst")
+    # print(gardenplants_lst) # list of gardenplants objects [<Gardenplants_id=2>, <Gardenplants_id=3>, None]
+    # gardenplants_lst = Garden
+
+
+
+
+    # gardenplants = usergarden.gardenplants
 
     return render_template("garden.html",
                            user=user,
-                           usergardens=usergardens,
-                           gardenplants=gardenplants)
+                           usergardens=usergardens)
 
 
-@app.route("/addgarden", methods='GET', 'POST')
+@app.route("/addgarden", methods=['GET', 'POST'])
 def add_garden():
     # page will show form to add a garden with all the parameters
     # upon submitting form, a new garden object will be instantiated
@@ -205,7 +230,7 @@ def add_plant():
     # return render_template("addplants.html", #pass through info)
 
 
-@app.route("/editgarden", methods='GET', 'POST')
+@app.route("/editgarden", methods=['GET', 'POST'])
 def edit_garden():
     """add, remove, or change gardens and/or plant information in db"""
 

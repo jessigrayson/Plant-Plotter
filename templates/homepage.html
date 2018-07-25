@@ -8,13 +8,12 @@
   </div>
 
 
-  <!-- Plant search dropdown -->
+
   <form action="/plant">
 
     <div class="form-group">
       <label>Plant
         <select name="plants">
-<!-- default drop down text needs to be added -->
 
           {% for item in plants %}
           <option value="{{ item.plant_id }}">{{ item.pname }}</option>

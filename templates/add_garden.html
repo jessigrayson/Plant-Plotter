@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<title>Add Garden</title>
+<h2>Add a Garden:</h2>
+<br>
+<form action="/addgarden" method="POST">
+    Garden Name:
+    <input type="text" name="garden_name" required>
+    <br>
+    <br>
+    Garden Description:
+    <input type="text" name="garden_desc" required>
+    <br>
+    <br>
+    <div class="form-group">
+        <label>Sun Exposure:
+    <select name="sun">
+        {% for sun in sun_exposures %}
+        <option value="{{ sun.sun_id }}">{{ sun.sun_name }}</option>
+        {% endfor %}
+    </select>
+</label>
+</div>
+    <br>
+    <br>
+    <input type="submit" value="Add Garden">
+</form>
+
+{% endblock %}

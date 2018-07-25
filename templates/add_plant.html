@@ -7,7 +7,7 @@
 <form action="/addplant" method="POST">
 
     <div class="form-group">
-        <label>Gardens
+        <label>
             <select name="garden">
                 {% for usergarden in usergardens %}
                 <option value="{{ usergarden.garden_id }}">{{ usergarden.garden_id }} - {{ usergarden.garden_name }}: {{ usergarden.garden_desc}}</option>

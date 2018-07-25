@@ -137,6 +137,34 @@ def garden_detail():
 
 @app.route("/addgarden", methods=['GET', 'POST'])
 def add_garden():
+
+    user = User.query.get(session["user_id"])
+
+    usergardens = user.usergarden
+
+    sun_exposures = Sun.query.all()
+
+    if request.method == 'POST':
+        if not request.form["sun"] or not request.form["garden_name"] or not request.form["garden_desc"]:
+
+            flash("Please enter all the fields", "error")
+        else:
+            garden_name = request.form["garden_name"]
+            garden_desc = request.form["garden_desc"]
+            sun_id = request.form["sun"]
+
+            new_usergarden_obj = UserGarden(user_id=user.user_id,
+                                            garden_name=garden_name,
+                                            garden_desc=garden_desc,
+                                            sun_id=sun_id)
+
+            db.session.add(new_usergarden_obj)
+            db.session.commit()
+
+            flash("{} successfully added as a garden".format(garden_name))
+            return redirect("/mygarden")
+
+    return render_template("add_garden.html", user=user, usergardens=usergardens, sun_exposures=sun_exposures)
     # page will show form to add a garden with all the parameters
     # upon submitting form, a new garden object will be instantiated
     # then that info will pass to the add plants page

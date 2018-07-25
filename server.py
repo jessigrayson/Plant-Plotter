@@ -31,7 +31,6 @@ def plant_detail():
     """Show plant and associated info."""
 
     plant_id = int(request.args.get("plants"))
-
     plant = Plant.query.get(plant_id)
 
     return render_template("plant.html", plant=plant)
@@ -53,8 +52,9 @@ def register_process():
     email = request.form["email"]
     username = request.form["username"]
     password = request.form["password"]
+    zipcode = request.form["zipcode"]
 
-    reg_date = datetime.datetime.now()
+    reg_date = datetime.now()
 
     new_user = User(fname=fname,
                     lname=lname,
@@ -116,7 +116,7 @@ def logout():
 def user_detail(user_id):
     """Show info about user."""
 
-    user = db.session.filter(user_id).get()
+    user = User.query.get(user_id)
 
     return render_template("user.html", user=user)
 
@@ -162,7 +162,7 @@ def add_garden():
             db.session.commit()
 
             flash("{} successfully added as a garden".format(garden_name))
-            return redirect("/mygarden")
+            return redirect("/addplant")
 
     return render_template("add_garden.html", user=user, usergardens=usergardens, sun_exposures=sun_exposures)
     # page will show form to add a garden with all the parameters

@@ -3,12 +3,15 @@
 <head>
     <title>Plants</title>
 <div class="topnav">
-  <a class="active" href="/">Home</a>
-  <!-- <a href="/myplants">My Plants</a> -->
-  <a href="/mygarden">My Garden</a>
+  <a class="active" href="/">Home</a>  | 
+  <a href="/mygarden">My Garden</a>  | 
+  <a href="/addgarden">Add Garden</a>  | 
+  <a href="/addplant">Add Plants</a>  | 
+  <a href="/users/<int:user_id>">My Account</a> | 
   <a href="/logout">Log Out</a>
 </div>
 </head>
+<br>
 <body>
 
 {% for flash in get_flashed_messages() %}

@@ -5,6 +5,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
 # from flask_login import login_required, current_user (Phase 2?)
+from datetime import datetime
 
 from model import connect_to_db, db, Plant, User, UserGarden, Water, Sun, ZipFrostDate, GardenPlants
 
@@ -32,7 +33,6 @@ def plant_detail():
     plant_id = int(request.args.get("plants"))
 
     plant = Plant.query.get(plant_id)
-
 
     return render_template("plant.html", plant=plant)
 
@@ -130,35 +130,6 @@ def garden_detail():
 
     usergardens = user.usergarden
 
-    # gardenplants_lst = []
-
-    # for garden in usergardens:
-    #     print("--------------for garden in usergardens:")
-    #     print(garden)
-    #     print(type(garden))
-    #     for gardenplant in garden.gardenplants:
-    #         print("--------------for gardenplant in garden.gardenplants:")
-    #         print(gardenplant)
-    #         print(type(gardenplant))
-    #         print("--------------print gardenplant.plant:")
-    #         print(gardenplant.plant)
-    #         print(type(gardenplant.plant))
-            # for gardenplants.plant in gardenplants:
-    #     print("garden.garden_id")
-    #     print(garden.garden_id) #None or other garden number, just the number
-    #     gardenplants = Plant.query.filter_by(GardenPlants.query.get(garden.garden_id)) #gardenplants object
-    #     print("gardenplants")
-    #     print(gardenplants)
-    #     gardenplants_lst.append(gardenplants)
-    # print("gardenplants_lst")
-    # print(gardenplants_lst) # list of gardenplants objects [<Gardenplants_id=2>, <Gardenplants_id=3>, None]
-    # gardenplants_lst = Garden
-
-
-
-
-    # gardenplants = usergarden.gardenplants
-
     return render_template("garden.html",
                            user=user,
                            usergardens=usergardens)
@@ -181,53 +152,43 @@ def add_garden():
 @app.route("/addplant", methods=['GET', 'POST'])
 def add_plant():
     """Select a plant to add to one of your gardens"""
+
+    user = User.query.get(session["user_id"])
+
+    usergardens = user.usergarden
+
+    plants = Plant.query.all()
+
     if request.method == 'POST':
-        if not request.form["plants"] or not request.form["planted_date"] or not request.form["garden"]:
+        if not request.form["plant"] or not request.form["planted_date"] or not request.form["garden"]:
 
             flash("Please enter all the fields", "error")
 
         else:
-            garden_id = int(request.args.get("garden"))
-            garden = Garden.query.get(garden_id)
+            usergarden_id = request.form["garden"]
+            usergarden = UserGarden.query.get(usergarden_id)
 
-            plant_id = int(request.args.get("plants"))
-            plant = Plant.query.get(plant_id)
+            plant_id = request.form["plant"]
+            plant_obj = Plant.query.get(plant_id)
 
-            planted_date = request.form("planted_date")
+            planted_date_str = request.form["planted_date"]
+            dt_planted_date = datetime.strptime(planted_date_str, '%Y-%m-%d')
+            planted_date = dt_planted_date.date()
 
-            harvest_date = calculate_harvest_date(plant_id, planted_date)
+            harvest_date = GardenPlants.calculate_harvest_date(plant_obj.plant_id, planted_date)
 
-            new_gardenplant_obj = GardenPlants(garden_id=garden_id,
-                                               plant_id=plant.plant_id,
+            new_gardenplant_obj = GardenPlants(garden_id=usergarden.garden_id,
+                                               plant_id=plant_obj.plant_id,
                                                planted_date=planted_date,
                                                harvest_date=harvest_date)
 
             db.session.add(new_gardenplant_obj)
             db.session.commit()
 
-            flash("{} successfully added to {}".format(plant.pname, garden.garden_name))
-            return redirect("/mygarden", plant=plant)
+            flash("{} successfully added to {}".format(plant_obj.pname, usergarden.garden_name))
+            return redirect("/mygarden")
 
-             # <select name="plants">
-    return render_template("add_plant.html")
-
-
-
-    # --POST:
-    # page will show form with drop down plant list like from homepage
-    # form will have an optional planted date input
-    # form will have a chance to override harvest_date?
-
-    # post route needs calculate_harvest_date function
-    # form inputs will add that info to the database as a new gardenplants object
-    # once submitted, event listener prompt to add another plant (Y/N)
-    # would be nice to have a link to not just add plant to garden, but
-    # add plant to a "favorites" list
-        # create object, will need to supply inputs, in order to supply
-        # harvest_date, will need to call ClassName.calculate_harvest_date 
-        # and store in a variable, then can pass that variable to database
-        # when entry is created
-    # return render_template("addplants.html", #pass through info)
+    return render_template("add_plant.html", user=user, usergardens=usergardens, plants=plants)
 
 
 @app.route("/editgarden", methods=['GET', 'POST'])

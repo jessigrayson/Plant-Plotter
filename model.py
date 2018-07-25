@@ -1,7 +1,7 @@
 """Models and database functions for Garden Web App project."""
 from flask_sqlalchemy import SQLAlchemy
 # from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # This is the connection to the PostgreSQL database; we're getting this through
 # the Flask-SQLAlchemy helper library. On this, we can find the `session`
@@ -117,8 +117,8 @@ class GardenPlants(db.Model):
     def calculate_harvest_date(plant_id, planted_date):
         """Return harvest date for gardenplant"""
 
-        harvest_days = db.session.query(Plant.pdays_to_harvest).get(plant_id)
-        harvest_date = planted_date + datetime.timedelta(days=harvest_days)
+        plant = Plant.query.get(plant_id)
+        harvest_date = planted_date + timedelta(days=plant.pdays_to_harvest)
         return harvest_date
         # get the harvest days for the plant
         # add the days to the planted_date

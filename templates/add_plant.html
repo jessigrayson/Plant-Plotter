@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<title>Add Plant</title>
+
+<h2>Add a Plant</h2>
+<form action="/addplant" method="POST">
+
+    <div class="form-group">
+        <label>Gardens
+            <select name="garden">
+                {% for usergarden in usergardens %}
+                <option value="{{ usergarden.garden_id }}">{{ usergarden.garden_id }} - {{ usergarden.garden_name }}: {{ usergarden.garden_desc}}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </div>
+
+<a href="/addgarden">Add New Garden</a>
+<br>
+<br>
+<br>
+    <div class="form-group">
+        <label>Plant
+            <select name="plant">
+                {% for plant in plants %}
+                    <option value="{{ plant.plant_id }}">{{ plant.pname }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <br>
+
+        <label>Date Planted: 
+            <input type="date" name="planted_date">
+        </label>
+    </div>
+<br>
+    <!-- Submit button -->
+    <div>
+        <input type="submit" value="Add Plant to My Garden!">
+    </div>
+</form>
+<br>
+<br>
+
+
+        
+
+{% endblock %}

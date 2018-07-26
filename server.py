@@ -7,7 +7,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 # from flask_login import login_required, current_user (Phase 2?)
 from datetime import datetime
 
-from model import connect_to_db, db, Plant, User, UserGarden, Water, Sun, GardenPlants  
+from model import connect_to_db, db, Plant, User, UserGarden, Water, Sun, GardenPlants
 #ZipFrostDate
 
 app = Flask(__name__)
@@ -41,14 +41,14 @@ def plant_detail():
 def register_form():
     """Show form for user signup."""
 
-    return render_template("user_reg.html")
+    return render_template("new_user.html")
 
 
 @app.route('/register', methods=['POST'])
 def process_registration():
     """Process registration."""
 
-    if session: 
+    if session:
         flash("You are already logged in.")
         return redirect("/")
 
@@ -72,8 +72,10 @@ def process_registration():
     db.session.add(new_user)
     db.session.commit()
 
-    flash("User {username} added.")
-    return redirect("/users/{new_user.user_id}")
+    session["user_id"] = new_user.user_id
+
+    flash("User {} added".format(username))
+    return redirect("/user")
 
 
 @app.route('/login', methods=['GET'])

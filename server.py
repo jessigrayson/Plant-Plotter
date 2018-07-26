@@ -7,7 +7,8 @@ from flask_debugtoolbar import DebugToolbarExtension
 # from flask_login import login_required, current_user (Phase 2?)
 from datetime import datetime
 
-from model import connect_to_db, db, Plant, User, UserGarden, Water, Sun, ZipFrostDate, GardenPlants
+from model import connect_to_db, db, Plant, User, UserGarden, Water, Sun, GardenPlants  
+#ZipFrostDate
 
 app = Flask(__name__)
 
@@ -182,16 +183,6 @@ def add_garden():
             return redirect("/addplant")
 
     return render_template("add_garden.html", user=user, usergardens=usergardens, sun_exposures=sun_exposures)
-    # page will show form to add a garden with all the parameters
-    # upon submitting form, a new garden object will be instantiated
-    # then that info will pass to the add plants page
-    # would like to (eventually) add plants which will be in AJAX/JS
-    # so one can stay on the page and continually add plants.
-    #     plant_id = int(request.args.get("plants"))
-
-    # plant = Plant.query.get(plant_id)
-
-    # return render_template("addgarden.html") #pass through infoplant_id)
 
 
 @app.route("/addplant", methods=['GET', 'POST'])

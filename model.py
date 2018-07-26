@@ -1,19 +1,16 @@
 """Models and database functions for Garden Web App project."""
 from flask_sqlalchemy import SQLAlchemy
-# from collections import defaultdict
-from datetime import datetime, timedelta
 
-# This is the connection to the PostgreSQL database; we're getting this through
-# the Flask-SQLAlchemy helper library. On this, we can find the `session`
-# object, where we do most of our interactions (like committing, etc.)
+from datetime import timedelta
 
 db = SQLAlchemy()
-
 
 ##############################################################################
 # Model definitions
 
+
 ########## USER CLASS ############
+
 
 class User(db.Model):
     """User of garden website."""
@@ -41,8 +38,6 @@ class User(db.Model):
 class UserGarden(db.Model):
     """Plant water categories"""
 
-# SHOULD I MAKE GARDEN LOCATION A BOOLEAN?
-
     __tablename__ = "usergarden"
 
     garden_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
@@ -60,15 +55,41 @@ class UserGarden(db.Model):
         return "<Garden_id={} garden name={}>".format(self.garden_id, self.garden_name)
 
 
+########## GARDEN-PLANTS (MIDDLE TABLE) CLASS ############
+
+
+class GardenPlants(db.Model):
+    """Plant water categories"""
+
+    __tablename__ = "gardenplants"
+
+    gardenplants_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    garden_id = db.Column(db.Integer, db.ForeignKey('usergarden.garden_id'))
+    plant_id = db.Column(db.Integer, db.ForeignKey('plant.plant_id'))
+    planted_date = db.Column(db.DateTime, nullable=False)
+    harvest_date = db.Column(db.DateTime, nullable=False)
+    gardens = db.relationship("UserGarden", backref="gardenplants")
+    plant = db.relationship("Plant", backref="gardenplants")
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<Gardenplants_id={}>".format(self.gardenplants_id)
+
+    @staticmethod
+    def calculate_harvest_date(plant_id, planted_date):
+        """Return harvest date for gardenplant"""
+
+        plant = Plant.query.get(plant_id)
+        harvest_date = planted_date + timedelta(days=plant.pdays_to_harvest)
+        return harvest_date
+
+
+########## PLANT CLASS ############
+
+
 class Plant(db.Model):
     """Plants for garden website."""
-# DO WE NEED TO SPECIFY NULLABLE ON EACH ONE?
-# HOW TO MAKE PLANT CLASS WITH ADDITIONAL ATTRIBUTES SPECIFIC TO
-# THAT GARDEN'S USER LOCATION?
-
-# WHAT METRIC FOR SPACING?
-
-# PLANT PHOTO CONSTRUCT FOR CONSTRUCTING DB
 
     __tablename__ = "plant"
 
@@ -91,45 +112,7 @@ class Plant(db.Model):
         return "<Plant_id={} plant name={}>".format(self.plant_id, self.pname)
 
 
-class GardenPlants(db.Model):
-    """Plant water categories"""
-
-    __tablename__ = "gardenplants"
-
-    gardenplants_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    # user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    # # not sure if I should use user_id and/or garden_id, 3 id's seem overkill
-    garden_id = db.Column(db.Integer, db.ForeignKey('usergarden.garden_id'))
-    plant_id = db.Column(db.Integer, db.ForeignKey('plant.plant_id'))
-    planted_date = db.Column(db.DateTime, nullable=False)
-    harvest_date = db.Column(db.DateTime, nullable=False)
-
-    # user = db.relationship("User", backref="gardenplants")
-    gardens = db.relationship("UserGarden", backref="gardenplants")
-    plant = db.relationship("Plant", backref="gardenplants")
-
-    def __repr__(self):
-        """Provide helpful representation when printed."""
-
-        return "<Gardenplants_id={}>".format(self.gardenplants_id)
-
-    @staticmethod
-    def calculate_harvest_date(plant_id, planted_date):
-        """Return harvest date for gardenplant"""
-
-        plant = Plant.query.get(plant_id)
-        harvest_date = planted_date + timedelta(days=plant.pdays_to_harvest)
-        return harvest_date
-        # get the harvest days for the plant
-        # add the days to the planted_date
-        # give a date that is now the harvest date
-
-        # import datetime from datetime import datetime
-        # create object, will need to supply inputs, in order to supply
-        # harvest_date, will need to call ClassName.calculate_harvest_date
-        # and store in a variable, then can pass that variable to database
-        # when entry is created
-
+########## SUN CLASS ############
 
 
 class Sun(db.Model):
@@ -146,6 +129,9 @@ class Sun(db.Model):
         return "<Sun sun_id={} sun name={}>".format(self.sun_id, self.sun_name)
 
 
+########## WATER CLASS ############
+
+
 class Water(db.Model):
     """Plant water categories"""
 
@@ -160,10 +146,12 @@ class Water(db.Model):
         return "<Water_id={} water name={}>".format(self.water_id, self.water_name)
 
 
+########## FROST DATES BY ZIP CODE CLASS ############
+# Phase 2 potentially
+
+
 class ZipFrostDate(db.Model):
     """Frost dates by zipcode categories"""
-
-# SHOULD I MAKE GARDEN LOCATION A BOOLEAN?
 
     __tablename__ = "zipfrost_date"
 

@@ -2,25 +2,34 @@
 {% block content %}
   
   <!-- Login form -->
+  <center>
   <h1>Login</h1>
   
   <form action="/login" method="POST">
 
     <div>
-      <label>Username:
+      <label>Username
+        <br>
         <input type="username" name="username" required>
       </label>
     </div>
-
+<br>
     <div>
-      <label>Password:
+      <label>Password
+        <br>
         <input type="password" name="password" required>
       </label>
     </div>
-
+<br>
     <div>
       <input type="submit" value="Log In">
-    </div>
-
   </form>
+</div>
+<div>
+  <br>
+  <form action="/register">
+    <input type="submit" value="Register">
+  </form>
+    </div>
+</center>
 {% endblock %}

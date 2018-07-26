@@ -44,8 +44,12 @@ def register_form():
 
 
 @app.route('/register', methods=['POST'])
-def register_process():
+def process_registration():
     """Process registration."""
+
+    if session: 
+        flash("You are already logged in.")
+        return redirect("/")
 
     fname = request.form["fname"]
     lname = request.form["lname"]
@@ -106,17 +110,25 @@ def process_login():
 @app.route('/logout')
 def logout():
     """Log out."""
-    # Needs action for when nav bar pulls this route
-    del session["user_id"]
+
+    if session:
+        del session["user_id"]
+
     flash("Logged Out.")
+
     return redirect("/")
 
 
-@app.route("/users/<int:user_id>")
-def user_detail(user_id):
+@app.route("/user")
+def user_detail():
     """Show info about user."""
 
-    user = User.query.get(user_id)
+    if not session:
+        flash("You have not yet logged in.")
+
+        return redirect("/login")
+
+    user = User.query.get(session['user_id'])
 
     return render_template("user.html", user=user)
 
@@ -125,6 +137,9 @@ def user_detail(user_id):
 # @login_required
 def garden_detail():
     """Show user garden(s) & associated info."""
+    if not session:
+        flash("You need to login to view your garden")
+        return redirect("/")
 
     user = User.query.get(session["user_id"])
 
@@ -137,7 +152,9 @@ def garden_detail():
 
 @app.route("/addgarden", methods=['GET', 'POST'])
 def add_garden():
-
+    if not session:
+        flash("You must be logged in to create a garden")
+        return redirect("/login")
     user = User.query.get(session["user_id"])
 
     usergardens = user.usergarden
@@ -174,12 +191,16 @@ def add_garden():
 
     # plant = Plant.query.get(plant_id)
 
-    return render_template("addgarden.html") #pass through infoplant_id)
+    # return render_template("addgarden.html") #pass through infoplant_id)
 
 
 @app.route("/addplant", methods=['GET', 'POST'])
 def add_plant():
     """Select a plant to add to one of your gardens"""
+
+    if not session:
+        flash("You must be logged in to add plants")
+        return redirect("/login")
 
     user = User.query.get(session["user_id"])
 

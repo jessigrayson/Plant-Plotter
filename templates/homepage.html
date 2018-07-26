@@ -1,18 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
+<center>
   <!-- Main text on page -->
   <div id="homepage-block">
-    <h2 id="homepage-title">Manage Your Garden</h2>
+    <h2 id="homepage-title">Garden Tracker</h2>
+    <h3>
+    <a href="/mygarden">Create or Manage Your Own Garden</a>
+    </h3>
+    <br>
   </div>
-
-
 
   <form action="/plant">
 
     <div class="form-group">
-      <label>Plant
+      <label>Learn About:
         <select name="plants">
 
           {% for item in plants %}
@@ -24,7 +26,6 @@
       </label>
     </div>
     <br>
-    <!-- Submit button -->
     <div>
       <input type="submit" value="Get Info">
     </div>
@@ -32,12 +33,5 @@
   <br>
   <br>
 
-
-    <!-- Login link -->
-  <div>
-    <a href="/login">Login</a>
-  </div>
-  
-
-
+</center>
 {% endblock %}

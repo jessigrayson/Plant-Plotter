@@ -1,22 +1,34 @@
 <!doctype html>
 <html>
 <head>
+    <style>
+.flash {color:red;}
+.topnav {color:LightSeaGreen;}
+</style>
     <title>Plants</title>
 <div class="topnav">
+  <font size="3"> 
+    <!-- font size not supported in html5, will change with bootstrap -->
   <a class="active" href="/">Home</a>  | 
   <a href="/mygarden">My Garden</a>  | 
   <a href="/addgarden">Add Garden</a>  | 
   <a href="/addplant">Add Plants</a>  | 
-  <a href="/users/<int:user_id>">My Account</a> | 
-  <a href="/logout">Log Out</a>
+  <a href="/user">My Account</a> | 
+  {% if session %}
+    <a href="/logout">Log Out</a>
+  {% else %}
+    <a href="/login">Login</a>
+  {% endif %}
+</font>
 </div>
 </head>
 <br>
 <body>
-
+<div class="flash">
 {% for flash in get_flashed_messages() %}
   {{ flash }}
 {% endfor %}
+</div>
 
 {% block content %}
   Put your body here.

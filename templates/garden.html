@@ -6,9 +6,14 @@
 <h1>My Garden</h1>
 
 <p>{{ user.fname }}, check it out!</p>
+<br>
+<a href="/addgarden">Add another garden</a>
 
 {% for garden in usergardens %}
-<h2>{{ garden.garden_name }}: {{ garden.garden_desc }}</h2>
+<h2>
+    {{ garden.garden_name }}: {{ garden.garden_desc }} 
+    <a href="/addplant">Add another plant</a>
+</h2>
 
 <table>
   <tr>

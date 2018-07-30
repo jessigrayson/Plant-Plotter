@@ -13,11 +13,12 @@
   <a href="/mygarden">My Garden</a>  | 
   <a href="/addgarden">Add Garden</a>  | 
   <a href="/addplant">Add Plants</a>  | 
-  <a href="/user">My Account</a> | 
-  {% if session %}
+  <a href="/user">My Account</a>  | 
+  {% if session and "user_id" in session %}
     <a href="/logout">Log Out</a>
   {% else %}
-    <a href="/login">Login</a>
+    <a href="/login">Login</a>  | 
+    <a href="/register">Register</a>
   {% endif %}
 </font>
 </div>

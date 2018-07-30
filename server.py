@@ -31,9 +31,14 @@ def index():
 def plant_detail():
     """Show plant and associated info."""
 
-    plant_id = int(request.args.get("plants"))
-    plant = Plant.query.get(plant_id)
-
+    if request.args.get("plants"):
+        plant_id = int(request.args.get("plants"))
+        plant = Plant.query.get(plant_id)
+    else:
+        flash("Select a plant to find out more")
+        return redirect("/")
+    # test 1: with a specific plant_id - output contains name or something
+    # plants ?=foobar >>>> 404 page with photo, can't find your plant info or a bad request result or redirect with flash message
     return render_template("plant.html", plant=plant)
 
 
@@ -58,6 +63,9 @@ def process_registration():
     username = request.form["username"]
     password = request.form["password"]
     zipcode = request.form["zipcode"]
+
+# test kwargs with getting text from variables
+# put request.form lin and datetime.now in new_user instanciation?
 
     reg_date = datetime.now()
 
@@ -98,11 +106,11 @@ def process_login():
     # CHANGE TO .ONE() AND MAKE AN ERROR EXCEPTION
 
     if not user:
-        flash("No such user")
+        flash("Invalid credentials")
         return redirect("/login")
 
     if user.password != password:
-        flash("Incorrect password")
+        flash("Invalid credentials")
         return redirect("/login")
 
     session["user_id"] = user.user_id
@@ -215,6 +223,7 @@ def add_plant():
 
             planted_date_str = request.form["planted_date"]
             dt_planted_date = datetime.strptime(planted_date_str, '%Y-%m-%d')
+            # if statement if date format doesn't match line above this one
             planted_date = dt_planted_date.date()
 
             harvest_date = GardenPlants.calculate_harvest_date(plant_obj.plant_id, planted_date)
@@ -238,6 +247,92 @@ def edit_garden():
     """add, remove, or change gardens and/or plant information in db"""
 
     return render_template("editgarden.html")
+
+
+@app.route("/frostdates_demo", methods=['GET', 'POST'])
+def show_frost_demo():
+
+    user = User.query.get(session['user_id'])
+
+    return render_template("frostdates_demo.html", user=user)
+@app.route("/create_event", methods=['POST'])
+def create_event():
+
+    POST https://www.googleapis.com/calendar/v3/calendars/calendarId/events
+
+####################################### FROM API EXERCISE
+@app.route("/create-event", methods=['POST'])
+def create_eventbrite_event():
+    """Create Eventbrite event using form data"""
+
+    name = request.form.get('name')
+    # The Eventbrite API requires the start & end times be in ISO8601 format
+    # in the UTC time standard. Adding ':00' at the end represents the seconds,
+    # and the 'Z' is the zone designator for the zero UTC offset.
+    start_time = request.form.get('start-time') + ':00Z'
+    end_time = request.form.get('end-time') + ':00Z'
+    timezone = request.form.get('timezone')
+    currency = request.form.get('currency')
+
+    payload = {'event.name.html': name,
+               'event.start.utc': start_time,
+               'event.start.timezone': timezone,
+               'event.end.utc': end_time,
+               'event.end.timezone': timezone,
+               'event.currency': currency,
+               }
+
+    # The token can't be sent as part of the payload for POST requests to
+    # Eventbrite's API and must be sent as part of the header instead
+    headers = {'Authorization': 'Bearer ' + EVENTBRITE_TOKEN}
+
+    response = requests.post(EVENTBRITE_URL + "events/",
+                             data=payload,
+                             headers=headers)
+    data = response.json()
+
+    # If the response was successful, redirect to the homepage
+    # and flash a success message
+    if response.ok:
+        flash(f"Your event was created! Here's the link: {data['url']}")
+        return redirect("/")
+
+    # If the response was an error, redirect to the event creation page
+    # and flash a message with the error description from the returned JSON
+    else:
+        flash(f"Error: {data['error_description']}")
+        return redirect("/create-event")
+#########################################
+
+# Refer to the Python quickstart on how to setup the environment:
+# https://developers.google.com/calendar/quickstart/python
+# Change the scope to 'https://www.googleapis.com/auth/calendar' and delete any
+# stored credentials.
+
+event = {
+  'summary': 'Test Harvest Time',
+  'location': 'GARDEN XYZ',
+  'description': 'ABC is probably ready to harvest',
+  'start': {
+    'dateTime': '2018-09-24T00:00:00-00:00'
+  },
+  'end': {
+    'dateTime': '2018-10-01T17:00:00-07:00'
+  },
+  'recurrence': [
+    'RRULE:FREQ=DAILY;COUNT=2'
+  ]
+  'reminders': {
+    'useDefault': False,
+    'overrides': [
+      {'method': 'email', 'minutes': 24 * 60},
+      {'method': 'popup', 'minutes': 10},
+    ],
+  },
+}
+
+event = service.events().insert(calendarId='primary', body=event).execute()
+print('Event created: {}'.format(event.get('htmlLink')))
 
 if __name__ == "__main__":
 

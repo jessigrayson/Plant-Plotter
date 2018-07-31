@@ -98,7 +98,7 @@ class NotLoggedInNavigationTests(TestCase):
         self.assertNotIn(b"Logout", result.data)
 
     def test_logout_page(self):
-        """Tests user redirected if /logout (url hack) when not logged in"""
+        """Tests user redirected home if /logout (url hack) when not logged in"""
 
         result = self.client.get("/logout", follow_redirects=True)
         self.assertEqual(result.status_code, 302)
@@ -106,7 +106,7 @@ class NotLoggedInNavigationTests(TestCase):
         self.assertNotIn(b"Logout", result.data)
 
     def test_plant_page(self):
-        """Tests user redirected if /plant (url hack) when not logged in"""
+        """Tests user redirected home if /plant (url hack) when not logged in"""
 
         result = self.client.get("/plant", follow_redirects=True)
         self.assertEqual(result.status_code, 302)
@@ -114,6 +114,16 @@ class NotLoggedInNavigationTests(TestCase):
         self.assertIn(b"Login", result.data)
         self.assertNotIn(b"Logout", result.data)
 
+####################### TEST-DRIVEN-DEVELOPMENT #############################
+    def test_edit_garden_page(self):
+        """Tests user redirected to /login if /edit_garden (url hack) when not logged in"""
+        
+        result = self.client.get("/edit_garden", follow_redirects=True)
+        self.assertEqual(result.status_code, 302)
+        self.assertIn(b"You must be logged in to edit your garden", result.data)
+        self.assertIn(b"Login", result.data)
+        self.assertNotIn(b"Logout", result.data)
 
+    def test_
 if __name__ == "__main__":
     unittest.main()

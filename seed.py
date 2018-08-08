@@ -2,6 +2,7 @@
 
 import datetime
 from sqlalchemy import func
+from sqlalchemy.orm import exc
 import csv
 
 from model import Plant, User, UserGarden, Sun, Water, ZipFrostDate, GardenPlants, connect_to_db, db

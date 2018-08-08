@@ -5,12 +5,6 @@ from datetime import timedelta
 
 db = SQLAlchemy()
 
-##############################################################################
-# Model definitions
-
-
-########## USER CLASS ############
-
 
 class User(db.Model):
     """User of garden website."""
@@ -22,7 +16,7 @@ class User(db.Model):
     password = db.Column(db.String(64), nullable=False)
     fname = db.Column(db.String(16), nullable=False)
     lname = db.Column(db.String(16), nullable=False)
-    email = db.Column(db.String(64), nullable=False)
+    email = db.Column(db.String(64), nullable=False, unique=True)
     zipcode = db.Column(db.String(15), nullable=False)
     reg_date = db.Column(db.DateTime)
 
@@ -30,9 +24,6 @@ class User(db.Model):
         """Provide helpful representation when printed."""
 
         return "<User user_id={} email={}>".format(self.user_id, self.email)
-
-
-########## USER-GARDEN CLASS ############
 
 
 class UserGarden(db.Model):
@@ -53,9 +44,6 @@ class UserGarden(db.Model):
         """Provide helpful representation when printed."""
 
         return "<Garden_id={} garden name={}>".format(self.garden_id, self.garden_name)
-
-
-########## GARDEN-PLANTS (MIDDLE TABLE) CLASS ############
 
 
 class GardenPlants(db.Model):
@@ -85,9 +73,6 @@ class GardenPlants(db.Model):
         return harvest_date
 
 
-########## PLANT CLASS ############
-
-
 class Plant(db.Model):
     """Plants for garden website."""
 
@@ -112,9 +97,6 @@ class Plant(db.Model):
         return "<Plant_id={} plant name={}>".format(self.plant_id, self.pname)
 
 
-########## SUN CLASS ############
-
-
 class Sun(db.Model):
     """Sun exposure category for plant."""
 
@@ -127,9 +109,6 @@ class Sun(db.Model):
         """Provide helpful representation when printed."""
 
         return "<Sun sun_id={} sun name={}>".format(self.sun_id, self.sun_name)
-
-
-########## WATER CLASS ############
 
 
 class Water(db.Model):
@@ -146,7 +125,6 @@ class Water(db.Model):
         return "<Water_id={} water name={}>".format(self.water_id, self.water_name)
 
 
-########## FROST DATES BY ZIP CODE CLASS ############
 # Phase 2 potentially
 
 
@@ -163,17 +141,16 @@ class ZipFrostDate(db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Zipfrost_id={} zipfrost_code={}.>".format(self.zipfrost_id, self.zipfrost_code )
+        return "<Zipfrost_id={} zipfrost_code={}.>".format(self.zipfrost_id, self.zipfrost_code)
 
 
-##############################################################################
-# Helper functions
+######## HELPER FUNCTIONS #####################################################
 
-def connect_to_db(app):
+def connect_to_db(app, url='postgresql:///plants'):
     """Connect the database to our Flask app."""
 
     # Configure to use our PostgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///plants'
+    app.config['SQLALCHEMY_DATABASE_URI'] = url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ECHO'] = True
     db.app = app
@@ -181,8 +158,6 @@ def connect_to_db(app):
 
 
 if __name__ == "__main__":
-    # As a convenience, if we run this module interactively, it will leave
-    # you in a state of being able to work with the database directly.
 
     from server import app
 

@@ -24,6 +24,7 @@
     <th>Note</th>
     <th>Watering</th>
     <th>Sun Exposure</th>
+    <th>Add to Calendar?</th>
   </tr>
   {% for gardenplant in garden.gardenplants %}
     <tr>
@@ -34,7 +35,13 @@
         <td>{{ gardenplant.plant.plant_note }}</td>
         <td>{{ gardenplant.plant.water.water_name }}</td>
         <td>{{ gardenplant.plant.sun.sun_name }}</td>
+        <td> <form action="/saveharvestevent" method="POST">
+             <button type="submit" name="gardenplants_id" value="{{ gardenplant.gardenplants_id }}">Add to Calendar</button></form>
+        <td>
+
+        </td>
     </tr>
+
     {% endfor %}
 </table>
 {% endfor %}

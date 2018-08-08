@@ -2,3 +2,4 @@ env
 *.pyc
 secrets.sh
 notes.txt
+client_secret.json

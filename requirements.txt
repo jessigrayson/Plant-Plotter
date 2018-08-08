@@ -9,3 +9,15 @@ MarkupSafe==1.0
 psycopg2==2.7.5
 SQLAlchemy==1.2.8
 Werkzeug==0.14.1
+
+certifi==2018.4.16 
+chardet==3.0.4 
+idna==2.7 
+requests==2.19.1 
+urllib3==1.23
+
+google-auth==1.5.1
+google-auth-oauthlib==0.2.0
+oauthlib==2.1.0
+requests-oauthlib==1.0.0
+

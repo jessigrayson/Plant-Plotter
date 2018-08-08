@@ -2,7 +2,7 @@
 {% block content %}
 
   <h1>Register</h1>
-  <form action="/register" method="POST">
+  <form id="register" action="/register" method="POST">
 
     <br>
     <br>
@@ -17,12 +17,12 @@
     <br>
     <br>
       <label>Email:
-        <input type="email" name="email" required>
+        <input type="email" name="email"id="email-field" required>
       </label>
     <br>
     <br>
       <label>Username:
-        <input type="text" name="username" required>
+        <input type="text" name="username" id="username-field" required>
       </label>
     <br>
     <br>
@@ -41,4 +41,5 @@
     <br>
 
   </form>
+      <script src="/static/js/validate-user-reg.js"></script>
 {% endblock %}

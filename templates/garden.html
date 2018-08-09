@@ -1,21 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
 
+
 <title>My Garden: {{ user.fname }}</title>
 
-<h1>My Garden</h1>
+<h1 id="mygardenheader">My Garden</h1>
 
 <p>{{ user.fname }}, check it out!</p>
 <br>
-<a href="/addgarden">Add a new garden</a>
+<center><div id="addgarden">
+    <button type="button" class="btn btn-primary btn-sm" id="addgarden-btn1">
+<a href="/addgarden" id="addgarden-btn1">Add a new garden</a></button>
+       <button type="button" class="btn btn-primary btn-sm" id="addgarden-btn2">
+
+    <a href="/addplant" id="addgarden-btn2">Add another plant</a>
+</div></center><p>
 
 {% for garden in usergardens %}
-<h2>
+<h3 id="garden-name-desc"><b>
     {{ garden.garden_name }}: {{ garden.garden_desc }} 
-    <a href="/addplant">Add another plant</a>
-</h2>
-
-<table>
+</h3></b>
+<div id="table">
+<table class="table table-hover">
+  <thead class="thead-light">
   <tr>
     <th>Plant Name</th>
     <th>Plant Description</th>
@@ -26,6 +33,8 @@
     <th>Sun Exposure</th>
     <th>Add to Calendar?</th>
   </tr>
+  </thead>
+  <tbody>
   {% for gardenplant in garden.gardenplants %}
     <tr>
         <td>{{ gardenplant.plant.pname }} </td>
@@ -35,15 +44,15 @@
         <td>{{ gardenplant.plant.plant_note }}</td>
         <td>{{ gardenplant.plant.water.water_name }}</td>
         <td>{{ gardenplant.plant.sun.sun_name }}</td>
-        <td> <form action="/saveharvestevent" method="POST">
-             <button type="submit" name="gardenplants_id" value="{{ gardenplant.gardenplants_id }}">Add to Calendar</button></form>
-        <td>
-
+        <td> 
+            <form action="/saveharvestevent" method="POST">
+             <button type="submit" name="gardenplants_id" value="{{ gardenplant.gardenplants_id }}">Add to Calendar</button>
+            </form>
         </td>
     </tr>
-
     {% endfor %}
+    </tbody>
 </table>
 {% endfor %}
-
+</div>
 {% endblock %}

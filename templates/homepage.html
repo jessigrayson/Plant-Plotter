@@ -1,108 +1,59 @@
 {% extends 'base.html' %}
-{% block content %}
-<html>
-<!-- Header -->
-<header id="header">
-  <div class="intro">
-    <div class="overlay">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 col-md-offset-2 intro-text">
-            <h1>Plot Your Next Plant</h1>
-            <p>Automatically get customized calendar events based on your garden's harvests. 
-            <a href="/howit" class="btn btn-custom btn-lg page-scroll">Create My Garden</a> </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
+{% block content %} 
 
-<!-- How It Works Section -->
-<div id="howitworks">
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12 col-md-6">
-        <div class="howitworks-text">
-          <h2>How It<span>Works</span></h2>
-          <hr>
-          <p>Create one or more gardens.</p>
-          <p>Add your edible plants.</p>
-          <p>Enter date you planted or will plant your seeds.</p>
-          <p>Get customized calendar events to remind you<br>
-            when it is time to harves and eat!</p>
-          <p>Be reminded of harvest time custom to the plant and date sewn. </p>
-        <a href="/mygarden" class="btn btn-custom btn-lg">Plot My Garden</a> </div>
-      </div>
-      <div class="col-xs-12 col-md-3">
-        <div class="howitworks-media"> <img src="img/about-1.jpg" alt=" "> </div>
-        <div class="howitworks-desc">
-          <h3>Multiple Gardens</h3>
-          <p>Track your indoor garden, outdoor garden, and the herbs on the windowsill.</p>
-        </div>
-      </div>
-      <div class="col-xs-12 col-md-3">
-        <div class="about-media"> <img src="img/about-2.jpg" alt=" "> </div>
-        <div class="about-desc">
-          <h3>Reminders</h3>
-          <p>Schedule your plantings in advance based on each plant's ideal growing season.</p>
-            <p>Send generated calendar events and reminders for harvest time so you can enjoy it at the peak of freshness and flavor.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
- 
-  <!-- Main text on page -->
-  <div id="homepage-block">
-    <h2 id="homepage-title">Garden Tracker</h2>
-    <h3>
-    <a href="/mygarden">Create or Manage Your Own Garden</a>
-    </h3>
-    <br>
-  </div>
 
-<div id="plantinfo">
-  <div class="container">
-    <div class="section-title text-center center">
-      <h2>Top Fruits and Vegetables</h2>
-      <hr>
-      <p>Peruse these easy-to-grow plants for inspiration</p>
-    </div>
-    <div class="categories">
-      <ul class="cat">
-        <li>
-          <ol class="type">
-            <li><a href="#" data-filter="*" class="active">All Plants</a></li>
-          </ol>
-        </li>
-      </ul>
-      <div class="clearfix"></div>
-    </div>
+
+      <!-- START JUMBOTRON -->
+      <div class="jumbotron card card-block">
+        <h2 id="jumbotron-text">
+          Your Gardens, Your Plants
+        </h2>
+        <p id="jumbotron-text">
+          Automatically get customized calendar events based on your garden's planting and harvesting schedule.
+        </p>
+        <br>
+        <br>
+        <p>
+          <a class="btn btn-primary btn.large" id="createmanagebtn" href="/mygarden">Create or Manage Your Garden</a>
+        </p>
+        <br>
+        <div class="dropdown">
+             
+            <button class="btn btn-primary dropdown-toggle" type="button" id="plantdropdownMenuButton" data-toggle="dropdown">
+              What To Plant?
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           {% for item in plants %}
-    <div class="row">
-      <div class="portfolio-items">
-        <div class="col-sm-6 col-md-4 plants">
-          <div class="portfolio-item">
-            <div class="hover-bg"> <a href="img/portfolio/01-large.jpg" title="{{ item.pname }}" data-lightbox-gallery="gallery1" value="{{ item.plant_id }}">
-              <div class="hover-text">
-                <h4><a href="/plant">{{ item.pname }}</a></h4>
-              </div>
-            <img src="img/portfolio/01-small.jpg" class="img-responsive"> </a> </div>
+               <a class="dropdown-item disabled" value="{{ item.plant_id }}" href="/plant">{{ item.pname }}</a>
+          {% endfor %}
+               <a class="dropdown-item" href="#">Another action</a>
+               <a class="dropdown-item" href="#">Something else here</a>
+            </div>
           </div>
+      </div>
+      <!-- END JUMBOTRON BLOCK -->
+      <!-- ROW FOR PLANT DROP DOWN -->
+      <div class="row">
+        <!-- COL1 -->
+        <div class="col-md-4">
+        </div>
+
+        <!-- COL2 -->
+        <div class="col-md-4">
+          
+        </div>
+        <!-- COL3 -->
+        <div class="col-md-4">
         </div>
       </div>
+      <!-- END PLANT DROP DOWN ROW -->
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
     </div>
-            {% endfor %}
+  </div>
 
-<script type="text/javascript" src="js/jquery.1.11.1.js"></script> 
-<script type="text/javascript" src="js/bootstrap.js"></script> 
-<script type="text/javascript" src="js/SmoothScroll.js"></script> 
-<script type="text/javascript" src="js/nivo-lightbox.js"></script> 
-<script type="text/javascript" src="js/jquery.isotope.js"></script> 
-<script type="text/javascript" src="js/owl.carousel.js"></script> 
-<script type="text/javascript" src="js/jqBootstrapValidation.js"></script> 
-<script type="text/javascript" src="js/contact_me.js"></script> 
-<script type="text/javascript" src="js/main.js"></script>
-</body>
-</html>
-{% endblock %}
+  {% endblock %}

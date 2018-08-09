@@ -2,4 +2,13 @@ env
 *.pyc
 secrets.sh
 notes.txt
+
 client_secret.json
+google_cal_api.py
+google_oauth2.py
+
+.coverage
+
+test.html
+random
+layoutit homepage

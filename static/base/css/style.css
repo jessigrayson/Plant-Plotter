@@ -1,0 +1,77 @@
+/*EVERY PAGE*/
+body {
+    background-image: url("/static/images/rootplants.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-attachment: fixed;
+    margin: auto;
+
+}
+
+
+div.jumbotron {
+    min-height: 400px;
+    max-height: 600px;
+    background-color: #ffffff;
+    opacity: 0.6;
+}
+
+div.jumbotron h2, p {
+    text-align: center;
+    vertical-align: 50%;
+    line-height: px;
+    font-weight: bold;
+    opacity: 1.0;
+}
+
+div.dropdown {
+    margin: auto;
+    background-color: white;
+    color: black;
+    text-align: center;
+}
+
+/*EVERY PAGE, HEADER*/
+.page-header{
+    background-color: orange;
+    color: white;
+    text-align: center;
+}
+
+#navbar {
+    background-color: green;
+    color: white;
+}
+
+.sr-only {
+    color: white;
+}
+
+/*GARDEN PAGE*/
+
+#mygardenheader {
+    text-align: center;
+    font-family: 
+}
+
+
+.table{
+    color: white;
+}
+
+#addgarden-btn1 {
+    color: white;
+}
+
+#addgarden-btn2 {
+    color: white;
+}
+#garden-name-desc {
+    color: white;
+
+}
+    
+#table {
+    background-color: rgba(0, 0, 0, 0.5);
+}

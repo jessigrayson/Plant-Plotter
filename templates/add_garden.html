@@ -1,30 +1,75 @@
 {% extends 'base.html' %}
 {% block content %}
+<style type="text/css">
+body, html { 
+    /* The image used */
+    background-image: url("/static/images/littlepots.jpg");
 
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#addgardenbtn {
+  opacity: 0.7;
+}
+
+#addgardenform {
+    text-align: center;
+}
+</style>
 <title>Add Garden</title>
-<h2>Add a Garden:</h2>
+
+<br><br><br>
+<h1 id="mygardenheader"><b>Add Garden</b></h1>
+
+      <!-- ROW -->
+      <div class="row">
+        <!-- COL1 -->
+        <div class="col-md-4">
+        </div>
+
+        <!-- COL2 -->
+        <div class="col-md-4" id="addgardenform">
+          <br>
+  <form action="/addgarden" method="POST">
+
+    <div>
+      <label>
+        <br>
+        <input type="gardenname" name="garden_name" class="form-control" id="gardenname" placeholder="Name of Garden" required>
+      </label>
+    </div>
+    <div>
+      <label>
+        <br>
+        <input type="gardendesc" name="garden_desc" class="form-control" id="gardendesc" placeholder="i.e. Side Yard, Back Patio..." required>
+      </label>
+    </div>
 <br>
-<form action="/addgarden" method="POST">
-    Garden Name:
-    <input type="text" name="garden_name" required>
-    <br>
-    <br>
-    Garden Description:
-    <input type="text" name="garden_desc" required>
-    <br>
-    <br>
-    <div class="form-group">
-        <label>Sun Exposure:
-    <select name="sun">
+<div class="form-group"
+      <label class="mr-sm-2" for="inlineFormCustomSelect"></label>
+      <select name="sun" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+        <option selected disabled>Sun Exposure</option>
         {% for sun in sun_exposures %}
         <option value="{{ sun.sun_id }}">{{ sun.sun_name }}</option>
         {% endfor %}
-    </select>
-</label>
+      </select>
 </div>
-    <br>
-    <br>
-    <input type="submit" value="Add Garden">
-</form>
 
+<br>
+<input type="submit" button type="button" class="btn btn-primary" id="addgardenbtn" value="Add Garden"></button>
+  </form>
+
+
+        </div>
+        <!-- COL3 -->
+        <div class="col-md-4">
+        </div>
+      </div>
+      <!-- END ROW -->
 {% endblock %}

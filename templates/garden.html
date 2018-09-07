@@ -3,50 +3,60 @@
 
 
 <title>My Garden: {{ user.fname }}</title>
-
-<h1 id="mygardenheader">My Garden</h1>
-
-<p>{{ user.fname }}, check it out!</p>
 <br>
-<center><div id="addgarden">
-    <button type="button" class="btn btn-primary btn-sm" id="addgarden-btn1">
-<a href="/addgarden" id="addgarden-btn1">Add a new garden</a></button>
-       <button type="button" class="btn btn-primary btn-sm" id="addgarden-btn2">
+<h1 id="mygardenheader"><b>My Garden</b></h1>
 
-    <a href="/addplant" id="addgarden-btn2">Add another plant</a>
+
+<br>
+ <!-- ROW -->
+      <div class="row">
+        <!-- COL1 -->
+        <div class="col-md-1">
+        </div>
+
+        <!-- COL2 -->
+        <div class="col-md-10">
+          
+<center><div id="addgarden">
+    
+<a href="/addgarden" id="addgarden-btn1"><button type="button" class="btn btn-primary btn-sm" id="addgarden-btn1">Add a new garden</button></a>
+
+    <a href="/addplant" id="addgarden-btn2"><button type="button" class="btn btn-primary btn-sm" id="addgarden-btn2">Add another plant</button></a>
 </div></center><p>
 
-{% for garden in usergardens %}
-<h3 id="garden-name-desc"><b>
-    {{ garden.garden_name }}: {{ garden.garden_desc }} 
-</h3></b>
 <div id="table">
+  <br>
+{% for garden in usergardens %}
+<div id="garden-name-desc">
+<center><h3 id="garden-name-desc"><b>
+    {{ garden.garden_name }}:</b> <h4>{{ garden.garden_desc }} 
+</h4>
+</div>
 <table class="table table-hover">
   <thead class="thead-light">
   <tr>
     <th>Plant Name</th>
-    <th>Plant Description</th>
+
     <th>Date Planted</th>
-    <th>Harvest Date(no. days)</th>
-    <th>Note</th>
+    <th>Harvest Date</th>
+    <th>Spacing (in)</th>
     <th>Watering</th>
     <th>Sun Exposure</th>
-    <th>Add to Calendar?</th>
+    <th>Add To Calendar</th>
   </tr>
   </thead>
   <tbody>
   {% for gardenplant in garden.gardenplants %}
     <tr>
-        <td>{{ gardenplant.plant.pname }} </td>
-        <td>{{ gardenplant.plant.pdescription }}</td>
-        <td>{{ gardenplant.planted_date }}</td>
-        <td>{{ gardenplant.harvest_date }}</td>
-        <td>{{ gardenplant.plant.plant_note }}</td>
+        <td><b><a href="/plant?{{ gardenplant.plant.plant_id }}">{{ gardenplant.plant.pname }} </a></b></td>
+        <td>{{ gardenplant.planted_date.strftime('%m-%d-%Y') }}</td>
+        <td>{{ gardenplant.harvest_date.strftime('%m-%d-%Y') }}</td>
+        <td>{{ gardenplant.plant.pspacing }}</td>
         <td>{{ gardenplant.plant.water.water_name }}</td>
         <td>{{ gardenplant.plant.sun.sun_name }}</td>
         <td> 
             <form action="/saveharvestevent" method="POST">
-             <button type="submit" name="gardenplants_id" value="{{ gardenplant.gardenplants_id }}">Add to Calendar</button>
+             <button type="submit" name="gardenplants_id" class="btn btn-outline-success" value="{{ gardenplant.gardenplants_id }}">Add to Calendar</button>
             </form>
         </td>
     </tr>
@@ -55,4 +65,10 @@
 </table>
 {% endfor %}
 </div>
+        </div>
+        <!-- COL3 -->
+        <div class="col-md-1">
+        </div>
+      </div>
+      <!-- END ROW -->
 {% endblock %}

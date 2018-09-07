@@ -3,7 +3,7 @@ import os
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, request, flash, redirect, session, jsonify, url_for
+from flask import Flask, render_template, request, flash, redirect, session, jsonify, url_for, Markup
 from flask_debugtoolbar import DebugToolbarExtension
 import requests
 from sqlalchemy.orm import exc
@@ -51,7 +51,7 @@ def create_gardenplants_calendar_payload(gardenplants_id):
     harvest_start_date_string = datetime.strftime(harvest_start_date, '%Y-%m-%d')
     harvest_end_date_string = datetime.strftime(harvest_end_date, '%Y-%m-%d')
 
-    gardenplant_payload = {"summary": "Harvest Time:{}".format(gardenplant.plant.pname),
+    gardenplant_payload = {"summary": "Harvest Time! {}(s) may be ready!".format(gardenplant.plant.pname),
                            "location": "{}".format(gardenplant.gardens.garden_name),
                            "start": {"date": harvest_start_date_string},
                            "end": {"date": harvest_end_date_string},
@@ -74,15 +74,52 @@ def index():
 @app.route("/plant", methods=['GET'])
 def plant_detail():
     """Show plant and associated info."""
-
-    if request.args.get("plants"):
-        plant_id = int(request.args.get("plants"))
+    print("--------------requst.args.get(plants)")
+    for item in request.args:
+        print(item, request.args[item])
+    # print(request.args.get("plants"))
+    if request.args["id"]:
+        plant_id = request.args["id"]
+        # plant_id = int(request.args["plants"])
         plant = Plant.query.get(plant_id)
+
+        plants = Plant.query.all()
     else:
         flash("Select a plant to find out more")
         return redirect("/")
 
-    return render_template("plant.html", plant=plant)
+    return render_template("plant.html", plant=plant, plants=plants)
+
+
+@app.route("/new-plant", methods=['GET', 'POST'])
+def change_plant_info():
+    """Update plant information shown on page"""
+
+    print("-------------print(request.args.get(id)")
+    print(request.args.get("id"))
+
+    plant_id = request.args.get("id")
+
+    plant = Plant.query.get(plant_id)
+
+    plant_detail = ("""<b>Name:</b> {}<br>
+                    <b>Description:</b> {}<br>
+                    <b>Water Requirements:</b> {}<br>
+                    <b>Sun Exposure:</b> {}<br>
+                    <b>Days To Harvest:</b> {}<br>
+                    <b>Spacing:</b> {}<br>
+                    <b>Row Spacing:</b> {}<br>
+                    <b>Note:</b> {}<br>
+                    </p>""").format(plant.pname,
+                                    plant.pdescription,
+                                    plant.water.water_name,
+                                    plant.sun.sun_name,
+                                    plant.pdays_to_harvest,
+                                    plant.pspacing,
+                                    plant.prow_spacing,
+                                    plant.plant_note)
+
+    return plant_detail
 
 
 @app.route("/validate_user_reg.json")
@@ -339,7 +376,11 @@ def add_harvest_to_calendar():
 
         event = service.events().insert(calendarId='primary', body=payload).execute()
 
-        flash("Your event was created! Here's the link: {}".format(event.get('htmlLink')))
+        calendar_link = event.get('htmlLink')
+
+        flash(Markup("""Harvest saved! Here's the link: <a href="{}" target="_blank">
+            Calendar Event</a>""".format(calendar_link)))
+
         session.pop('gardenplants_id', None)
 
         return redirect("/mygarden")

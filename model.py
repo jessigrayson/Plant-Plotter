@@ -56,6 +56,7 @@ class GardenPlants(db.Model):
     plant_id = db.Column(db.Integer, db.ForeignKey('plant.plant_id'))
     planted_date = db.Column(db.DateTime, nullable=False)
     harvest_date = db.Column(db.DateTime, nullable=False)
+    
     gardens = db.relationship("UserGarden", backref="gardenplants")
     plant = db.relationship("Plant", backref="gardenplants")
 
@@ -80,13 +81,13 @@ class Plant(db.Model):
 
     plant_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     pname = db.Column(db.String(100))
-    pdescription = db.Column(db.String(200))
+    pdescription = db.Column(db.String(1000))
     water_id = db.Column(db.Integer, db.ForeignKey('water.water_id'))
     sun_id = db.Column(db.Integer, db.ForeignKey('sun.sun_id'))
     pdays_to_harvest = db.Column(db.Integer, nullable=False)
     pspacing = db.Column(db.String, nullable=True)
     prow_spacing = db.Column(db.String, nullable=True)
-    plant_note = db.Column(db.String(250), nullable=True)
+    plant_note = db.Column(db.String(2000), nullable=True)
 
     sun = db.relationship("Sun", backref="plant")
     water = db.relationship("Water", backref="plant")

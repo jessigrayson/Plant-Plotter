@@ -1,35 +1,54 @@
 {% extends 'base.html' %}
 {% block content %}
   
+<style type="text/css">
+body, html { 
+    /* The image used */
+    background-image: url("/static/images/cuttingboard2.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#loginbtn, #registerbtn {
+  opacity: 0.7;
+}
+
+</style>
+<div class="login">
   <!-- Login form -->
   <center>
-  <h1>Login</h1>
-  
+  <br><br><br>
   <form action="/login" method="POST">
 
     <div>
-      <label>Username
+      <label>
         <br>
-        <input type="username" name="username" required>
+        <input type="username" name="username" class="form-control" id="username" placeholder="Username" required>
+      </label>
+    </div>
+    <div>
+      <label>
+        <br>
+        <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
       </label>
     </div>
 <br>
     <div>
-      <label>Password
-        <br>
-        <input type="password" name="password" required>
-      </label>
-    </div>
-<br>
-    <div>
-      <input type="submit" value="Log In">
+<input type="submit" button type="button" class="btn btn-primary" id="loginbtn" value="Login"></button>
   </form>
 </div>
 <div>
   <br>
   <form action="/register">
-    <input type="submit" value="Register">
+<input type="submit" button type="button" class="btn btn-primary" id="registerbtn" value="Register">
   </form>
     </div>
 </center>
+
 {% endblock %}

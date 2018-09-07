@@ -2,10 +2,56 @@
 {% block content %}
 
 <title>Plant Info</title>
+<br>
+      <!-- START JUMBOTRON -->
+      <div class="jumbotronplant card card-block">
+        <center><h4 id="jumbotron-text-plant-detail">
+          {{ plant.pname }} Planting Information
+        </h4></center>
+        <div class="dropdown">
+             
+                <button class="btn dropdown-toggle btn-sm btn-outline-success" type="button" id="plantdropdownMenuButton" data-toggle="dropdown">
+                  More Plant Details
+                </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          {% for item in plants %}
+               <a class="dropdown-item" id="newplant" value="{{ item.plant_id }}" href="/plant?id={{ item.plant_id }}">{{ item.pname }}</a>
+          {% endfor %}
 
-<h1>Plant Info</h1>
-<p>Here is my info about the {{ plant.pname }}
+            </div>
+          </div>
+                <div class="row">
+        <!-- COL1 -->
+        <div class="col-md-3">
+        </div>
 
-    <p>{{ plant.pdescription }}</p>
+        <!-- COL2 -->
+        <div class="col-md-6">
+        <br>
+        <p id="jumbotron-text-plant-details">
+          <b>Name:</b> {{ plant.pname }}<br>
+          <b>Description:</b> {{ plant.pdescription}}<br>
+          <b>Water Requirements:</b> {{ plant.water.water_name }}<br>
+          <b>Sun Exposure:</b> {{ plant.sun.sun_name }}<br>
+          <b>Days To Harvest:</b> {{ plant.pdays_to_harvest }}<br>
+          <b>Spacing:</b> {{ plant.pspacing }}<br>
+          <b>Row Spacing:</b> {{ plant.prow_spacing }}<br>
+          <b>Note:</b> <br><p>{{ plant.plant_note }}</p>
+        </p>
+        <br>
 
+        <br>
+          
+        </div>
+        <!-- COL3 -->
+        <div class="col-md-3">
+        </div>
+      </div>
+      </div>
+</div>
+
+<script type="../plantinfo.js"></script>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="/static/ajax-exercise.js"></script>
+            
 {% endblock %}

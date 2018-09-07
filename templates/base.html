@@ -30,7 +30,21 @@
          
         <span><button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
           <span class="navbar-toggler-icon"></span>
-        </button> <a class="navbar-brand" href="/">Plant Plotter</a></span>
+        </button>
+        <a class="navbar-brand" href="/"><img src="/static/images/food.png" alt="Plant Plotter" height="40" width="45">Plant Plotter</a>
+            <span class="float-right">
+              {% if session and "user_id" in session %}
+                            <a href="/logout">
+                <button class="btn btn-primary btn-outline-success" type="button" id="logout-button">
+              Logout
+              {% else %}
+              <a href="/login">
+                <button class="btn btn-primary btn-outline-success" type="button" id="login-button">
+              Login
+              {% endif %}
+            </button></a>
+          </span>
+      </span>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="navbar-nav">
             <li class="nav-item active">
@@ -55,12 +69,17 @@
           </ul>
         </div>
       </nav>
+    </div>
+  </div>
+</div>
       <!-- END NAV -->
 
  {% block content %} {% endblock %}
 
 <!-- FOOTER -->
 <!--  -->
+
+{% block footer %}
   <!-- END FOOTER -->
 
 
@@ -69,4 +88,5 @@
     <script src="../static/base/js/bootstrap.min.js"></script>
     <script src="../static/base/js/scripts.js"></script>
   </body>
+  {% endblock %}
 </html>

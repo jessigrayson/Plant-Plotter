@@ -2,58 +2,61 @@
 {% block content %} 
 
 
+<style type="text/css">
+#plantmenu {
+  text-align: center;
+}
 
-      <!-- START JUMBOTRON -->
-      <div class="jumbotron card card-block">
-        <h2 id="jumbotron-text">
-          Your Gardens, Your Plants
-        </h2>
-        <p id="jumbotron-text">
-          Automatically get customized calendar events based on your garden's planting and harvesting schedule.
-        </p>
-        <br>
-        <br>
-        <p>
-          <a class="btn btn-primary btn.large" id="createmanagebtn" href="/mygarden">Create or Manage Your Garden</a>
-        </p>
-        <br>
-        <div class="dropdown">
+</style>
+        <!-- START JUMBOTRON -->
+        <div class="jumbotron card card-block">
+          <center><h1 id="jumbotron-text"><h1>
+            <b>Plant Plotter<b></h1>
+          </h1>
+            
+             <h4 id="jumbotron-text">make gardens | add plants | be notified
+          </h4></center>
+          <p id="jumbotron-text"><br>
+            Custom harvesting &amp; planting schedule sent to your calendar.
+          <br>
+          <br>
+          <p>
+            <a class="btn btn-primary btn.large" id="createmanagebtn" href="/mygarden">Create or Manage Your Garden</a>
+          </p>
+          <br>
+        
+     <!-- ROW -->
+      <div class="row">
+        <!-- COL1 -->
+        <div class="col-md-5">
+        </div>
+
+        <!-- COL2 -->
+        <div class="col-md-1">
+          <div class="dropdown" id="plantmenu">
              
             <button class="btn btn-primary dropdown-toggle" type="button" id="plantdropdownMenuButton" data-toggle="dropdown">
               What To Plant?
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu" id="plantmenu" aria-labelledby="dropdownMenuButton">
           {% for item in plants %}
-               <a class="dropdown-item disabled" value="{{ item.plant_id }}" href="/plant">{{ item.pname }}</a>
+               <a class="dropdown-item" value="{{ item.plant_id }}" href="/plant?id={{ item.plant_id }}">{{ item.pname }}</a>
           {% endfor %}
-               <a class="dropdown-item" href="#">Another action</a>
-               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </div>
+          </div>
+                  <!-- COL3 -->
+                  <div class="col-md-5">
+        </div>
+</div>
       </div>
-      <!-- END JUMBOTRON BLOCK -->
-      <!-- ROW FOR PLANT DROP DOWN -->
-      <div class="row">
-        <!-- COL1 -->
-        <div class="col-md-4">
-        </div>
-
-        <!-- COL2 -->
-        <div class="col-md-4">
-          
-        </div>
-        <!-- COL3 -->
-        <div class="col-md-4">
-        </div>
-      </div>
-      <!-- END PLANT DROP DOWN ROW -->
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
     </div>
-  </div>
+      <!-- END JUMBOTRON BLOCK -->
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
 
   {% endblock %}

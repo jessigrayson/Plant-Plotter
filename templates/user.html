@@ -1,15 +1,78 @@
 {% extends 'base.html' %}
 {% block content %}
+<style type="text/css">
+body, html { 
+    /* The image used */
+    background-image: url("/static/images/lemons.jpg");
 
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#myaccount {
+    color: white;
+    text-shadow: 2px 2px black;
+    text-align: left
+}
+          
+</style>
 <title>User Account Information</title>
 
-<h1>Name:</h1>{{ user.fname }} {{ user.lname }}
-<p>Username: {{ user.username }}</p>
-<p>Password: {{ user.password }}</p>
-<p>Email: {{ user.email }}</p>
-<p>Zipcode: {{ user.zipcode }}</p>
+      <!-- ROW -->
+      <div class="row">
+        <!-- COL1 -->
+        <div class="col-md-4">
+        </div>
 
-<a href="/mygarden">My Garden</a>
-        
+        <!-- COL2 -->
+        <div class="col-md-4">
+<br><br>
+<table class="table table-hover">
+  <thead class="thead-light">
+  <tr>
+    <th>
+<center>
+<h3 id="mygardenheader">Your Account</h3>
+    </th>
 
+  </tr>
+  </thead>
+  <tbody>
+<div id="myaccount">
+     <tr>
+        <td>
+<p><b>Name:</b> {{ user.fname }} {{ user.lname }}</p>
+        </td></tr>
+             <tr>   <td>
+<p><b>Username:</b> {{ user.username }}</p>
+        </td></tr>
+            <tr>    <td>
+<p><b>Password:</b> ********</p>
+        </td></tr>
+            <tr>    <td>
+<p><b>Email:</b> {{ user.email }}</p>
+        </td></tr>
+             <tr>   <td>
+<p><b>Zipcode:</b> {{ user.zipcode }}</p>
+        </td></tr>
+      <tr>  <td>
+            <center><a class="btn btn-primary btn-sm" id="createmanagebtn" href="/mygarden">Create or Manage Your Garden</a><center>
+        </td></tr>
+    </div>
+
+</center>
+ 
+    </tbody>
+</table>
+        </div>
+        <!-- COL3 -->
+        <div class="col-md-4">
+        </div>
+      </div>
+      <!-- END ROW -->
 {% endblock %}

@@ -284,7 +284,6 @@ if __name__ == "__main__":
     gardenplants_filename = "seed/gardenplants.csv"
     zipfrostdate_filename = "seed/zipfrost_date.csv"
 
-
     load_zipfrost_date(zipfrostdate_filename)
     load_sun(sun_filename)
     load_water(water_filename)

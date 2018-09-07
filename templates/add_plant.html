@@ -1,49 +1,100 @@
     {% extends 'base.html' %}
 {% block content %}
+<style type="text/css">
+body, html { 
+    /* The image used */
+    background-image: url("/static/images/cuttingboard2.jpg");
 
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#addgardenbtn {
+  opacity: 0.8;
+}
+
+#addgarden-sm-button {
+  opacity: 0.7;
+  line-height: 0.75
+}
+
+#addgardenform {
+    text-align: center;
+}
+
+#dateplanted {
+  color: white;
+}
+</style>
 <title>Add Plant</title>
+<br><br>
+<h1 id="mygardenheader"><b>Add Plant</b></h1>
 
-<h2>Add a Plant</h2>
-<form action="/addplant" method="POST">
+      <!-- ROW -->
+      <div class="row">
+        <!-- COL1 -->
+        <div class="col-md-4">
+        </div>
 
+        <!-- COL2 -->
+        <div class="col-md-4" id="addgardenform">
+  
+  <form action="/addplant" method="POST">
+    <p>
     <div class="form-group">
-        <label>
-            <select name="garden">
+        <label class="mr-sm-2" for="inlineFormCustomSelect"></label>
+      <select name="garden" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                <option selected disabled>Pick One of Your Gardens...</option>
                 {% for usergarden in usergardens %}
-                <option value="{{ usergarden.garden_id }}">{{ usergarden.garden_id }} - {{ usergarden.garden_name }}: {{ usergarden.garden_desc}}</option>
+                <option value="{{ usergarden.garden_id }}">{{ usergarden.garden_name }}: {{ usergarden.garden_desc}}</option>
                 {% endfor %}
             </select>
-        </label>
+          </p>
+            <p>
+              <a href="/addgarden">
+                <button class="btn btn-success btn-sm" type="button" id="addgarden-sm-button">
+              Or Add a New Garden
+            </button></a></p>
     </div>
-
-<a href="/addgarden">Add New Garden</a>
-<br>
-<br>
-<br>
+    <br>
     <div class="form-group">
-        <label>Plant
-            <select name="plant">
+        <label class="mr-sm-2" for="inlineFormCustomSelect"></label>
+      <select name="plant"class="custom-select mr-sm-2" name="plants" id="inlineFormCustomSelect">
+                <option selected disabled>Add a Plant to the Garden...</option>
                 {% for plant in plants %}
                     <option value="{{ plant.plant_id }}">{{ plant.pname }}</option>
                 {% endfor %}
             </select>
+</div>
+
+<div class="form-group">
+        <label id="dateplanted">Date Planted: 
+            <input type="date" class="form-control" name="planted_date">
         </label>
-        <br>
-        <br>
-        <label>Date Planted: 
-            <input type="date" name="planted_date">
-        </label>
-    </div>
-<br>
-    <!-- Submit button -->
-    <div>
-        <input type="submit" value="Add Plant to My Garden!">
-    </div>
-</form>
-<br>
-<br>
+</div>
+  
+    
 
 
-        
+
+
+
+
+<input type="submit" button type="button" class="btn btn-primary" id="addgardenbtn" value="Add Plant to My Garden"></button>
+  </form>
+
+
+        </div>
+        <!-- COL3 -->
+        <div class="col-md-4">
+        </div>
+      </div>
+      <!-- END ROW -->
+
 
 {% endblock %}

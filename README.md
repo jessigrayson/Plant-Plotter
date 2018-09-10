@@ -1,16 +1,21 @@
 # Plant-Plotter
 Custom harvesting &amp; planting schedule sent to your google  
-calendar based on user-created gardens and associated plants
+calendar based on user-created gardens and associated plants  
 **Tech Stack**
 * **Frontend:** HTML5, CSS, Javascript, AJAX, jQuery, Bootstrap, Bootstrap-Select
 * **Backend:** Python3, Flask, PostgreSQL, SQLAlchemy, Jinja
 * **API:** Google Calendar with OAuth 2.0
 
 **Contents:**
-* [Features & Screen Captures]()
-* [About the Developer]()
-* [Getting Started]()
-
+* [Features & Screen Captures](https://github.com/jessigrayson/Plant-Plotter#features--screen-captures)
+* [About the Developer](https://github.com/jessigrayson/Plant-Plotter#about-the-developer)
+* [Getting Started](https://github.com/jessigrayson/Plant-Plotter#getting-started)
+* [Copying Database to Production](https://github.com/jessigrayson/Plant-Plotter#copying-database-to-production)
+* [Edge HTTP Server: Nginx](https://github.com/jessigrayson/Plant-Plotter#edge-http-server-nginx)  
+**Phase 2**
+* The next sprint will include increasing test coverage
+* Implement the Nat’l Oceanic and Atmospheric Admin API to expand access for real-time  
+weather analytics to to determine ideal planting timelines by user geolocation.
 
 
 ## Features & Screen Captures
@@ -37,6 +42,8 @@ track and schedule her vegetable garden in an automated way, so she built Plant 
 What you don't know from [her LinkedIn profile:](https://linkedin.com/jessicagrayson)
 
 She is also a big fan of puzzles, beading, dogs, cheese, and wine.
+
+Jessica has led SaaS product development and implementations most extensively in the healthcare industry. This includes developing system workflows, user interfaces based on business and operational needs, and guiding development teams.These include technological tools and programs to manage digital imaging equipment logistics and a credentialing, licensing, and permit management product that reduced excess spend by 20% and annual revenue by 5%, respectively.
 
 ## Getting Started
 This project is a full-stack web app that leverages multiple technologies and frameworks.  

@@ -11,8 +11,9 @@ calendar based on user-created gardens and associated plants
 * [About the Developer](https://github.com/jessigrayson/Plant-Plotter#about-the-developer)
 * [Getting Started](https://github.com/jessigrayson/Plant-Plotter#getting-started)
 * [Copying Database to Production](https://github.com/jessigrayson/Plant-Plotter#copying-database-to-production)
-* [Edge HTTP Server: Nginx](https://github.com/jessigrayson/Plant-Plotter#edge-http-server-nginx)  
-**Phase 2**
+* [Edge HTTP Server: Nginx](https://github.com/jessigrayson/Plant-Plotter#edge-http-server-nginx)
+
+**Phase 2:**
 * The next sprint will include increasing test coverage
 * Implement the Nat’l Oceanic and Atmospheric Admin API to expand access for real-time  
 weather analytics to to determine ideal planting timelines by user geolocation.
